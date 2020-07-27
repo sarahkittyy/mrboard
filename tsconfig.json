@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"noImplicitAny": false,
+		"outDir": "dist/backend"
+	},
+	"include": [
+		"src/backend",
+	],
+	"exclude": [
+		"node_modules",
+		"src/frontend"
+	]
+}
