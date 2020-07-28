@@ -39,19 +39,16 @@ passport.use(new SteamStrategy({
 }));
 
 auth.get('/steam/login', passport.authenticate('steam', { successReturnToOrRedirect: '/' }));
-
 auth.get('/logout', (req, res) => {
 	req.logout();
-	const back: string = req.query.back.toString();
+	const back: string = req.query.back?.toString();
 	return res.redirect(back ?? '/');
-})
-
+});
 auth.get('/steam/return', 
 	passport.authenticate('steam', { failureRedirect: '/steam/login' }),
 	(req: Request, res: Response) => {
 		return res.redirect('/');
 	});
-	
 auth.get('/me', (req, res) => {
 	if (!req.isAuthenticated()) {
 		return res.send('no');
