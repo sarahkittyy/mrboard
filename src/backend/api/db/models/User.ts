@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import { prop, getModelForClass } from '@typegoose/typegoose';
 
-export class IUser {
+export class User {
 	@prop()
-	openid!: string;
+	_id: string;
 
 	@prop()
 	name: string;
@@ -11,9 +11,9 @@ export class IUser {
 	avatarURL: string;
 	
 	static async getUser(id: string) {
-		return await User.findOne({ openid: id });
+		return await UserModel.findById(id);
 	}
 };
 
-const User = getModelForClass(IUser);
-export { User };
+const UserModel = getModelForClass(User);
+export { UserModel };

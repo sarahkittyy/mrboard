@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
-import { User } from '../db/models/User';
+import { UserModel } from '../db/models/User';
 import { Strategy as SteamStrategy } from 'passport-steam';
 
 const auth = express.Router();
 
 passport.serializeUser((user: any, done) => {
-	return done(null, user.openid);
+	return done(null, user._id);
 });
 
 passport.deserializeUser((id: string, done) => {
-	User.getUser(id).then((user) => {
+	UserModel.getUser(id).then((user) => {
 		return done(null, user);
 	})
 	.catch((err) => {
@@ -23,10 +23,9 @@ passport.use(new SteamStrategy({
 	realm: `https://${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}/`,
 	apiKey: process.env.STEAM_API_KEY,
 }, async (identifier: string, profile: any, done: Function) => {
-	User.findOneAndUpdate({
-		openid: profile.id
-	}, {
-		openid: profile.id,
+	UserModel.findByIdAndUpdate(profile.id,
+	{
+		_id: profile.id,
 		name: profile.displayName,
 		avatarURL: profile._json.avatarmedium,
 	}, {
