@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
+
+import { Time } from './Time';
 
 export class User {
 	@prop()
@@ -9,6 +11,9 @@ export class User {
 	name: string;
 	@prop()
 	avatarURL: string;
+	
+	@prop({ ref: 'Time' })
+	times: Ref<Time>[];
 	
 	static async getUser(id: string) {
 		return await UserModel.findById(id);
