@@ -5,3 +5,4 @@ dist
 .vagrant
 server.key
 server.cert
+*.log
