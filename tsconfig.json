@@ -4,7 +4,11 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"noImplicitAny": false,
-		"outDir": "dist/backend"
+		"outDir": "dist/backend",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"module": "commonjs",
+		"target": "ES6"
 	},
 	"include": [
 		"src/backend",

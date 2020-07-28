@@ -1,8 +1,11 @@
+require('dotenv').config();
+
 import express from 'express';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 import appRoot from 'app-root-path';
+import passport from 'passport';
 
 const MongoStore = connectMongo(session);
 
@@ -18,10 +21,14 @@ app.use(session({
 	store: new MongoStore({
 		mongooseConnection: mongoose.connection,
 	}),
+	resave: false,
+	saveUninitialized: false,
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/assets', express.static(appRoot.resolve('assets')));
-app.get('/favicon.ico', (req, res) => { res.redirect('/assets/mr-logo.ico'); });
+app.get('/favicon.ico', (req, res) => { res.sendFile(appRoot.resolve('assets/favicon.ico')); });
 
 app.use(log);
 
