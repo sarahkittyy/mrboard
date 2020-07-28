@@ -5,11 +5,14 @@
 		<v-img class="clickable mr-4" @click="toSteamPage()" max-width="40" contain alt="logo" src="/assets/mr-logo.webp" />
 		<v-toolbar-title color="white">marble race community boards</v-toolbar-title>
 		<v-spacer />
+		<profile-badge />
 	</v-app-bar>
 </v-app>
 </template>
 
 <script>
+import ProfileBadge from '~/ProfileBadge';
+
 export default {
 	name: 'Home',
 	mounted() {
@@ -19,6 +22,9 @@ export default {
 		toSteamPage() {
 			document.location = 'https://store.steampowered.com/app/851640/Marble_Race/';
 		}
+	},
+	components: {
+		ProfileBadge,
 	}
 };
 </script>

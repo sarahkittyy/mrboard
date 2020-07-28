@@ -3,7 +3,7 @@ import { prop, getModelForClass } from '@typegoose/typegoose';
 
 export class IUser {
 	@prop()
-	id!: string;
+	openid!: string;
 
 	@prop()
 	name: string;
@@ -11,7 +11,7 @@ export class IUser {
 	avatarURL: string;
 	
 	static async getUser(id: string) {
-		return await User.findOne({ id });
+		return await User.findOne({ openid: id });
 	}
 };
 

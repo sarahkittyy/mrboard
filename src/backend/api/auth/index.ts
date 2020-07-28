@@ -6,7 +6,7 @@ import { Strategy as SteamStrategy } from 'passport-steam';
 const auth = express.Router();
 
 passport.serializeUser((user: any, done) => {
-	return done(null, user.id);
+	return done(null, user.openid);
 });
 
 passport.deserializeUser((id: string, done) => {
@@ -24,9 +24,9 @@ passport.use(new SteamStrategy({
 	apiKey: process.env.STEAM_API_KEY,
 }, async (identifier: string, profile: any, done: Function) => {
 	User.findOneAndUpdate({
-		id: profile.id
+		openid: profile.id
 	}, {
-		id: profile.id,
+		openid: profile.id,
 		name: profile.displayName,
 		avatarURL: profile._json.avatarmedium,
 	}, {
@@ -41,7 +41,7 @@ passport.use(new SteamStrategy({
 
 auth.get('/steam/login', passport.authenticate('steam'));
 
-auth.get('/steam/logout', (req, res) => {
+auth.get('/logout', (req, res) => {
 	req.logout();
 	return res.redirect('/');
 })
@@ -51,5 +51,14 @@ auth.get('/steam/return',
 	(req: Request, res: Response) => {
 		return res.redirect('/');
 	});
+	
+auth.get('/me', (req, res) => {
+	if (!req.isAuthenticated()) {
+		return res.send('no');
+	}
+	else {
+		return res.send(req.user);
+	}
+});
 
 export default auth;
