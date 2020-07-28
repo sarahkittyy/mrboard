@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
+    "@types/mongoose": "^5.7.32",
     "@vue/cli": "^4.4.6",
     "@vue/cli-service": "^4.4.6",
     "app-root-path": "^3.0.0",
@@ -27,6 +28,7 @@
     "express": "^4.17.1",
     "fibers": "^5.0.0",
     "moment": "^2.27.0",
+    "mongoose": "^5.9.26",
     "pm2": "^4.4.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",

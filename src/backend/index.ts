@@ -13,11 +13,11 @@ app.use('/assets', express.static(appRoot.resolve('assets')));
 
 app.use(log);
 
+app.use('/api', api);
+
 app.get('/*', (req, res) => {
 	return res.sendFile(appRoot.resolve('dist/frontend/index.html'));
 });
-
-app.use(api);
 
 let basePort = parseInt(process.env.BACKEND_PORT ?? '3000');
 
