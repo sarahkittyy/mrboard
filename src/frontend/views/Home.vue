@@ -1,30 +1,43 @@
 <template>
-<v-app>
-	<v-app-bar elevate fixed color="primary">
-		<v-app-bar-nav-icon />
-		<v-img class="clickable mr-4" @click="toSteamPage()" max-width="40" contain alt="logo" src="/assets/mr-logo.webp" />
-		<v-toolbar-title color="white">marble race community boards</v-toolbar-title>
-		<v-spacer />
-		<profile-badge />
-	</v-app-bar>
+<v-app style="background: rgba(0,0,0,0);">
+	<app-bar @open-drawer="openDrawer" />
+	<v-img src="/assets/bg.png" class="parallax-bg" />
+	<v-navigation-drawer
+		v-model="drawerOpen"
+		absolute
+		temporary
+		@keydown.esc="closeDrawer"
+	>
+	</v-navigation-drawer>
 </v-app>
 </template>
 
 <script>
-import ProfileBadge from '~/ProfileBadge';
+import AppBar from '~/AppBar';
 
 export default {
 	name: 'Home',
+	data: () => ({
+		drawerOpen: null,
+	}),
 	mounted() {
 		document.title = "MRBoard";
+		window.addEventListener('keydown', (ev) => {
+			if (ev.key === 'Escape') {
+				this.closeDrawer();
+			}
+		})
 	},
 	methods: {
-		toSteamPage() {
-			document.location = 'https://store.steampowered.com/app/851640/Marble_Race/';
+		openDrawer() {
+			this.drawerOpen = true;
+		},
+		closeDrawer() {
+			this.drawerOpen = false;
 		}
 	},
 	components: {
-		ProfileBadge,
+		AppBar,
 	}
 };
 </script>
@@ -33,10 +46,14 @@ export default {
 
 @use '~@/common';
 
-.clickable {
-	&:hover {
-		cursor: pointer;
-	}
+
+.parallax-bg {
+	opacity: 0.2;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	z-index: -999999999;
 }
 
 </style>

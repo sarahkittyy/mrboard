@@ -44,7 +44,8 @@ export default {
 				text: 'Logout',
 				icon: 'mdi-exit-to-app',
 				fn: 'logout',
-			}
+				divideAfter: false,
+			},
 		],
 	}),
 	created() {
@@ -74,7 +75,9 @@ export default {
 @use '~@/common';
 
 .clickable {
-	cursor: pointer;
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 </style>
