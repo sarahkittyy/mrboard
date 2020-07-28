@@ -1,5 +1,10 @@
 import express from 'express';
+import session from 'express-session';
+import connectMongo from 'connect-mongo';
+import mongoose from 'mongoose';
 import appRoot from 'app-root-path';
+
+const MongoStore = connectMongo(session);
 
 import api from './api';
 
@@ -8,6 +13,12 @@ import log from './log';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+	secret: process.env.SECRET,
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection,
+	}),
+}));
 
 app.use('/assets', express.static(appRoot.resolve('assets')));
 app.get('/favicon.ico', (req, res) => { res.redirect('/assets/mr-logo.ico'); });
