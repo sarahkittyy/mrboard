@@ -5,13 +5,15 @@ import Vuex from 'vuex';
 import router from './router';
 import store from './store';
 
+import vuetify from './vuetify';
+
 Vue.use(VueRouter);
 
 const vm = new Vue({
-	el: '#root',
 	router,
 	store,
-	template: '<router-view />'
-});
+	vuetify,
+	template: '<v-main><router-view /></v-main>',
+}).$mount('#root');
 
 window.vm = vm;

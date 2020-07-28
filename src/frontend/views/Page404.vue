@@ -1,7 +1,7 @@
 <template>
-<div>
-	<h1>404</h1>
-</div>
+<v-app>
+	404
+</v-app>
 </template>
 
 <script>
