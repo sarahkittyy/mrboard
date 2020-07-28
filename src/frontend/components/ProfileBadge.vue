@@ -1,23 +1,80 @@
 <template>
 <div>
-	<div v-if="$store.state.auth.auth">
-		authed
-	</div>
-	<div v-else>
-		nyot authed
-	</div>
+	<v-menu v-if="$store.state.auth.auth" offset-y>
+		<template v-slot:activator="{ on, attrs }">
+			<v-btn text block v-on="on" v-bind="attrs">
+				<v-row align="center" justify="center">
+					<v-col md="auto">
+						<span class="text-xl-center">{{ $store.getters.myDisplayname }}</span>
+					</v-col>
+					<v-col>
+						<v-avatar>
+							<v-img :src="$store.getters.myAvatar" />
+						</v-avatar>
+					</v-col>
+				</v-row>
+			</v-btn>
+		</template>
+		<v-list>
+			<v-list-item
+				v-for="(link, index) in profileLinks"
+				:key="index"
+				@click="profileMenuClick(link.fn)"
+			>
+				<v-list-item-icon>
+					<v-icon>{{ link.icon }}</v-icon>
+				</v-list-item-icon>
+				
+				<v-list-item-content>
+					{{ link.text }}
+				</v-list-item-content>
+			</v-list-item>
+		</v-list>
+	</v-menu>
+	<v-img v-else class="clickable ma-2" contain max-height="100%" @click="login()" src="/assets/sign-in.png" />
 </div>	
 </template>
 
 <script>
 export default {
 	name: 'ProfileBadge',
+	data: () => ({
+		profileLinks: [
+			{
+				text: 'Logout',
+				icon: 'mdi-exit-to-app',
+				fn: 'logout',
+			}
+		],
+	}),
 	created() {
 		this.$store.dispatch('refreshAuth');
+	},
+	methods: {
+		login() {
+			window.location.replace('/api/auth/steam/login');
+		},
+		logout() {
+			window.location.replace('/api/auth/logout?back=' + encodeURIComponent(this.route));
+		},
+		profileMenuClick(fn) {
+			this[fn]();
+		}
+	},
+	computed: {
+		route() {
+			return this.$route.path;
+		},
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+
+@use '~@/common';
+
+.clickable {
+	cursor: pointer;
+}
 
 </style>

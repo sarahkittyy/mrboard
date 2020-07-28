@@ -38,6 +38,19 @@ export default {
 		}
 	},
 	getters: {
-		
+		myAvatar(state) {
+			if (state.me != null) {
+				return state.me.avatarURL;
+			} else {
+				return 'https://picsum.photos/64';
+			}
+		},
+		myDisplayname(state) {
+			if (state.me != null) {
+				return state.me.name;
+			} else {
+				return 'guest';
+			}
+		}
 	}
 };

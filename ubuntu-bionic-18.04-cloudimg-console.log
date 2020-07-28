@@ -591,4 +591,4 @@ Welcome to [1mUbuntu 18.04.4 LTS[0m!
 
 Ubuntu 18.04.4 LTS ubuntu-bionic ttyS0
 
-ubuntu-bionic login: 
+ubuntu-bionic login: [ 5640.839375] e1000 0000:00:08.0 enp0s8: Reset adapter
