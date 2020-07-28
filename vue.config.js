@@ -17,6 +17,9 @@ module.exports = {
 			poll: 1000,
 			aggregateTimeout: 500,
 		},
+		https: true,
+		key: resolve(__dirname, 'server.key'),
+		cert: resolve(__dirname, 'server.cert'),
 		proxy: {
 			'/': {
 				target: 'http://0.0.0.0:3000',
