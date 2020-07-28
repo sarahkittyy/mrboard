@@ -10,7 +10,7 @@
 		</v-row>
 		<v-row align-content="center" justify="center">
 			<v-col class="text-center">
-				<v-btn @click="goHome()">go home</v-btn>
+				<v-btn color="primary" @click="goHome()">go home</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
