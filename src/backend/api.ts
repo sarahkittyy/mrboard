@@ -1,8 +1,8 @@
 import express from 'express';
 
-import './db/init';
+import './api/db/init';
 
-import auth from './auth';
+import auth from './api/auth';
 
 const api = express.Router();
 

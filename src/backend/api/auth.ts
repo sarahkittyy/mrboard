@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
-import { UserModel } from '../db/models/User';
+import { UserModel } from './db/models/User';
 import { Strategy as SteamStrategy } from 'passport-steam';
 
 const auth = express.Router();
