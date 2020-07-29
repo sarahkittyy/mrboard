@@ -53,7 +53,7 @@ export default {
 	},
 	methods: {
 		login() {
-			window.location.replace('/api/auth/steam/login?back=' + encodeURIComponent(this.route));
+			window.location.replace('/api/auth/login?back=' + encodeURIComponent(this.route));
 		},
 		logout() {
 			window.location.replace('/api/auth/logout?back=' + encodeURIComponent(this.route));
