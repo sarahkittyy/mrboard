@@ -6,3 +6,4 @@ dist
 server.key
 server.cert
 *.log
+notes.txt
