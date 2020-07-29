@@ -35,7 +35,7 @@ times.get('/', async (req, res) => {
  * get all of the currently authenticated user's times
  */
 times.get('/me', requireAuth, async (req, res) => {
-	let userId = req.user.steamid;
+	let userId = req.user.steam_id;
 	let user = await UserModel.getUser(userId);
 	
 	return res.send({ times: user.times ?? [] });
@@ -99,7 +99,7 @@ times.post('/new', [
 	rpl.mv(filename);
 	
 	// get the author
-	let author = await UserModel.getUser(req.user.steamid);
+	let author = await UserModel.getUser(req.user.steam_id);
 	
 	// see if the time exists
 	let time = await TimeModel.findOne({

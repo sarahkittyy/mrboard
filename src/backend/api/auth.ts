@@ -7,7 +7,7 @@ import requireAuth from './middleware/requireAuth';
 const auth = express.Router();
 
 passport.serializeUser((user: User, done) => {
-	return done(null, user.steamid);
+	return done(null, user.steam_id);
 });
 
 passport.deserializeUser((id: string, done) => {
@@ -27,7 +27,7 @@ passport.use(new SteamStrategy({
 	let user = await UserModel.getUser(profile.id)
 	if (!user) {
 		user = new UserModel();
-		user.steamid = profile.id;
+		user.steam_id = profile.id;
 		user.name = profile.displayName;
 		user.avatarURL = profile._json.avatarmedium;
 		user.times = [];
