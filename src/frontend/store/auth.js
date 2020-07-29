@@ -5,15 +5,22 @@ import validateCode from '../util/validate-code';
 
 export default {
 	state: () => ({
-		auth: false,
+		status: false,
+		loading: false,
 		me: null,
 	}),
 	mutations: {
-		setAuth(state, auth) {
-			state.auth = auth;
+		setStatus(state, status) {
+			state.status = status;
 		},
 		setMe(state, me) {
 			state.me = me;
+		},
+		authLoading(state) {
+			state.loading = true;
+		},
+		authDone(state) {
+			state.loading = false;
 		}
 	},
 	actions: {
@@ -21,19 +28,23 @@ export default {
 		 * login if we're not logged in, otherwise update `auth`
 		 */
 		refreshAuth({ commit }) {
+			commit('authLoading');
 			fetch('/api/auth/me')
 			.then(validateCode)
 			.then(async (res) => {
 				let text = await res.text();
 				if (text != 'no') {
-					commit('setAuth', true);
+					commit('setStatus', true);
 					commit('setMe', JSON.parse(text));
+					commit('authDone');
 				} else {
-					commit('setAuth', false);
+					commit('setStatus', false);
+					commit('authDone');
 				}
 			})
 			.catch((err) => {
 				console.error(err);
+				commit('authDone');
 			});
 		}
 	},

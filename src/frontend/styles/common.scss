@@ -1,2 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css');
+
+.bg {
+	opacity: 0.2;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	z-index: -999999999;
+}
