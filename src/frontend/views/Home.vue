@@ -1,9 +1,7 @@
 <template>
-<v-app style="background: rgba(0,0,0,0);">
-	<app-bar @open-drawer="openDrawer" title="Home" />
-	<v-img src="/assets/bg.png" class="bg" />
-	<main-drawer v-model="drawerOpen" />
-</v-app>
+<div>
+
+</div>
 </template>
 
 <script>
@@ -12,21 +10,13 @@ import MainDrawer from '~/MainDrawer';
 
 export default {
 	name: 'Home',
-	data: () => ({
-		drawerOpen: null,
-	}),
+	props: {
+		title: String,
+	},
 	mounted() {
-		document.title = "MRBoard";
+		document.title = "MRBoard Home";
+		this.$emit('child-init', this.title);
 	},
-	methods: {
-		openDrawer() {
-			this.drawerOpen = true;
-		},
-	},
-	components: {
-		AppBar,
-		MainDrawer,
-	}
 };
 </script>
 

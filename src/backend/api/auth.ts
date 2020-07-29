@@ -39,7 +39,12 @@ passport.use(new SteamStrategy({
 	});
 }));
 
-auth.get('/steam/login', passport.authenticate('steam', { successReturnToOrRedirect: '/' }));
+auth.get('/steam/login', (req, res, next) => {
+	const returnTo = req.query?.back;
+	req.session.authReturnTo = returnTo;
+	const auth = passport.authenticate('steam');
+	auth(req, res, next);
+});
 auth.get('/logout', (req, res) => {
 	req.logout();
 	const back: string = req.query.back?.toString();
@@ -48,7 +53,13 @@ auth.get('/logout', (req, res) => {
 auth.get('/steam/return', 
 	passport.authenticate('steam', { failureRedirect: '/steam/login' }),
 	(req: Request, res: Response) => {
-		return res.redirect('/');
+		const returnTo = req.session?.authReturnTo;
+		if (returnTo) {
+			delete req.session.authReturnTo;
+			return res.redirect(returnTo);
+		} else {
+			return res.redirect('/');
+		}
 	});
 auth.get('/me', requireAuth, (req, res) => {
 	return res.send(req.user);

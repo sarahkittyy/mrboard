@@ -95,6 +95,7 @@ times.post('/new', [
 		} catch (err) {
 			return res.status(500).send('Internal server error.');
 		}
+		level.save();
 	}
 	
 	// save the replay file
@@ -103,8 +104,8 @@ times.post('/new', [
 	
 	// create the time
 	let time = new TimeModel();
-	time.level = level._id;
-	time.author = req.user._id;
+	time.level = level;
+	time.author = req.user;
 	time.timestamp = new Date(data.Timestamp * 1000);
 	time.duration = data.time;
 	time.verified = false;
