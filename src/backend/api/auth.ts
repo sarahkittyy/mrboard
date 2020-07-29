@@ -4,6 +4,8 @@ import { User, UserModel } from './db/models/User';
 import { Strategy as SteamStrategy } from 'passport-steam';
 import requireAuth from './middleware/requireAuth';
 
+import { AuthController } from './db/controllers/AuthController';
+
 const auth = express.Router();
 
 passport.serializeUser((user: User, done) => {
@@ -20,7 +22,7 @@ passport.deserializeUser((id: string, done) => {
 });
 
 passport.use(new SteamStrategy({
-	returnURL: `https://${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}/api/auth/steam/return`,
+	returnURL: `https://${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}/api/auth/return`,
 	realm: `https://${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}/`,
 	apiKey: process.env.STEAM_API_KEY,
 }, async (identifier: string, profile: any, done: Function) => {
@@ -36,30 +38,12 @@ passport.use(new SteamStrategy({
 	return done(null, user);
 }));
 
-auth.get('/steam/login', (req, res, next) => {
-	const returnTo = req.query?.back;
-	req.session.authReturnTo = returnTo;
-	const auth = passport.authenticate('steam');
-	auth(req, res, next);
-});
-auth.get('/logout', (req, res) => {
-	req.logout();
-	const back: string = req.query.back?.toString();
-	return res.redirect(back ?? '/');
-});
-auth.get('/steam/return', 
+auth.get('/login', AuthController.login);
+auth.get('/logout', AuthController.logout);
+auth.get('/return', 
 	passport.authenticate('steam', { failureRedirect: '/steam/login' }),
-	(req: Request, res: Response) => {
-		const returnTo = req.session?.authReturnTo;
-		if (returnTo) {
-			delete req.session.authReturnTo;
-			return res.redirect(returnTo);
-		} else {
-			return res.redirect('/');
-		}
-	});
-auth.get('/me', requireAuth, (req, res) => {
-	return res.send(req.user);
-});
+	AuthController.return
+);
+auth.get('/me', requireAuth, AuthController.me);
 
 export default auth;
