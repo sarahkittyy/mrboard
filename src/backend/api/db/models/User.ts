@@ -5,8 +5,8 @@ import { Time } from './Time';
 
 export class User {
 	@prop()
-	_id: string;
-
+	steamid: string;
+	
 	@prop()
 	name: string;
 	@prop()
@@ -16,7 +16,7 @@ export class User {
 	times: Ref<Time>[];
 	
 	static async getUser(id: string) {
-		return await UserModel.findById(id);
+		return await UserModel.findOne({ steamid: id });
 	}
 };
 

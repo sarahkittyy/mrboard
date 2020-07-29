@@ -35,12 +35,8 @@ times.get('/', async (req, res) => {
  * get all of the currently authenticated user's times
  */
 times.get('/me', requireAuth, async (req, res) => {
-	let userId = req.user._id;
-	let user = await UserModel.findOne({
-		_id: userId,
-	}, 'times')
-	.populate('times')
-	.lean();
+	let userId = req.user.steamid;
+	let user = await UserModel.getUser(userId);
 	
 	return res.send({ times: user.times ?? [] });
 });
@@ -102,16 +98,30 @@ times.post('/new', [
 	let filename: string = `storage/${uuidv4()}.rpl`;
 	rpl.mv(filename);
 	
-	// create the time
-	let time = new TimeModel();
-	time.level = level;
-	time.author = req.user;
-	time.timestamp = new Date(data.Timestamp * 1000);
+	// get the author
+	let author = await UserModel.getUser(req.user.steamid);
+	
+	// see if the time exists
+	let time = await TimeModel.findOne({
+		level: level._id,
+		author: author._id,
+	});
+	if (!time) {
+		time = new TimeModel();
+		time.level = level;
+		time.author = author;
+	}
 	time.duration = data.time;
+	time.timestamp = new Date(data.Timestamp * 1000);
 	time.verified = false;
 	time.replay = filename;
 	time.save();
 	
+	level.times.push(time);
+	author.times.push(time);
+	level.save();
+	author.save();
+
 	return res.send('Success');
 });
 

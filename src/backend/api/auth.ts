@@ -7,7 +7,7 @@ import requireAuth from './middleware/requireAuth';
 const auth = express.Router();
 
 passport.serializeUser((user: User, done) => {
-	return done(null, user._id);
+	return done(null, user.steamid);
 });
 
 passport.deserializeUser((id: string, done) => {
@@ -24,19 +24,16 @@ passport.use(new SteamStrategy({
 	realm: `https://${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}/`,
 	apiKey: process.env.STEAM_API_KEY,
 }, async (identifier: string, profile: any, done: Function) => {
-	UserModel.findByIdAndUpdate(profile.id,
-	{
-		_id: profile.id,
-		name: profile.displayName,
-		avatarURL: profile._json.avatarmedium,
-	}, {
-		upsert: true,
-		new: true,
-	}).then((user) => {
-		return done(null, user);
-	}).catch((err) => {
-		return done(err, null);
-	});
+	let user = await UserModel.getUser(profile.id)
+	if (!user) {
+		user = new UserModel();
+		user.steamid = profile.id;
+		user.name = profile.displayName;
+		user.avatarURL = profile._json.avatarmedium;
+		user.times = [];
+		user.save();
+	}
+	return done(null, user);
 }));
 
 auth.get('/steam/login', (req, res, next) => {

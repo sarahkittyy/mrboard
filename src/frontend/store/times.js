@@ -8,6 +8,7 @@ export default {
 	state: () => ({
 		uploading: false,
 		uploadStatus: false,
+		all: [],
 	}),
 	mutations: {
 		startUploading(state) {
@@ -24,10 +25,13 @@ export default {
 		resetUploadState(state) {
 			state.uploading = false;
 			state.uploadStatus = false;
+		},
+		setTimes(state, times) {
+			state.all = [...times];
 		}
 	},
 	actions: {
-		submitTime({ commit }, form) {
+		submitTime({ commit, dispatch }, form) {
 			commit('startUploading');
 			
 			axios.post('/api/times/new', form, {
@@ -38,6 +42,7 @@ export default {
 			.then(res => {
 				Vue.$snotify.success('Redirecting you home...', 'Replay upload successful!');
 				commit('uploadSuccess');
+				dispatch('getAllTimes');
 			})
 			.catch(err => {
 				console.error(err);
@@ -45,6 +50,9 @@ export default {
 				commit('uploadFailed');
 			});
 		},
+		getAllTimes({ commit }) {
+
+		}
 	},
 	getters: {
 		
