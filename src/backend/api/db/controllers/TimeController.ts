@@ -52,6 +52,7 @@ export class TimeController {
 	 * post a new time
 	 */
 	public static new = async (req: Request, res: Response) => {
+		// parse the rpl file
 		const rpl = req.files.rpl as UploadedFile;
 		let data: Replay;
 		try {
@@ -80,7 +81,7 @@ export class TimeController {
 		let filename: string = `storage/${uuidv4()}.rpl`;
 		rpl.mv(filename);
 		
-		// get the author
+		// get the submitting author
 		let author = await UserModel.getUser(req.user.steam_id);
 		
 		// see if the time exists
@@ -88,22 +89,26 @@ export class TimeController {
 			level: level._id,
 			author: author._id,
 		});
+		// create the model if it doesn't exist
 		if (!time) {
 			time = new TimeModel();
 			time.level = level;
 			time.author = author;
 		}
+		// update to the latest, best time
 		time.duration = data.time;
 		time.timestamp = new Date(data.Timestamp * 1000);
 		time.verified = false;
 		time.replay = filename;
 		time.save();
 		
+		// update relationships
 		level.times.push(time);
 		author.times.push(time);
 		level.save();
 		author.save();
 
+		// respond successful
 		return res.send('Success');
 	}
 };
