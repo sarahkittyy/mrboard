@@ -16,6 +16,12 @@ export class Time extends TimeStamps {
 	
 	@prop()
 	duration: number;
+	
+	@prop()
+	verified: boolean;
+	
+	@prop()
+	replay: string;
 };
 
 const TimeModel = getModelForClass(Time);

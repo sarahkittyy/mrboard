@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
-import { UserModel } from './db/models/User';
+import { User, UserModel } from './db/models/User';
 import { Strategy as SteamStrategy } from 'passport-steam';
+import requireAuth from './middleware/requireAuth';
 
 const auth = express.Router();
 
-passport.serializeUser((user: any, done) => {
+passport.serializeUser((user: User, done) => {
 	return done(null, user._id);
 });
 
@@ -49,13 +50,8 @@ auth.get('/steam/return',
 	(req: Request, res: Response) => {
 		return res.redirect('/');
 	});
-auth.get('/me', (req, res) => {
-	if (!req.isAuthenticated()) {
-		return res.send('no');
-	}
-	else {
-		return res.send(req.user);
-	}
+auth.get('/me', requireAuth, (req, res) => {
+	return res.send(req.user);
 });
 
 export default auth;

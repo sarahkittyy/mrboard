@@ -3,23 +3,20 @@ import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
 import { Time } from './Time';
 
 export class Level {
-	/**
-	 * steam id of the level / campaign
-	 */
 	@prop()
-	_id: string;
+	steam_id: string;
+	
+	@prop()
+	name: string;
 	
 	@prop()
 	campaign?: string;
-	
-	@prop()
-	level!: string;
 	
 	@prop({ ref: 'Time' })
 	times: Ref<Time>[];
 	
 	@prop()
-	version: string;
+	thumbnailURL: string;
 };
 
 const LevelModel = getModelForClass(Level);

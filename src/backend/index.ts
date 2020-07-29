@@ -6,6 +6,7 @@ import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 import appRoot from 'app-root-path';
 import passport from 'passport';
+import fileUpload from 'express-fileupload';
 
 const MongoStore = connectMongo(session);
 
@@ -26,6 +27,13 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(fileUpload({
+	limits: {
+		fileSize: 20 * 1024 * 1024,
+	},
+	useTempFiles: true,
+	tempFileDir: '/tmp/',
+}));
 
 app.use('/assets', express.static(appRoot.resolve('assets')));
 app.get('/favicon.ico', (req, res) => { res.sendFile(appRoot.resolve('assets/favicon.ico')); });

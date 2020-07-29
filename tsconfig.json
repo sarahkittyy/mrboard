@@ -8,10 +8,14 @@
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"module": "commonjs",
-		"target": "ES6"
+		"target": "ES6",
+		"typeRoots": [
+			"src/backend/types",
+			"node_modules/@types"
+		]
 	},
 	"include": [
-		"src/backend",
+		"src/backend"
 	],
 	"exclude": [
 		"node_modules",
