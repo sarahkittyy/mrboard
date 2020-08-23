@@ -54,9 +54,11 @@ export default {
 			fetch('/api/times')
 			.then(validateCode)
 			.then(async (res) => {
-				commit('setTimes', res.times)
+				let json = await res.json();
+				commit('setTimes', json);
 			})
 			.catch((err) => {
+				console.error(err);
 				Vue.$snotify.error(err.response || 'Unknown error.', 'Could not fetch times');
 				commit('setTimes', []);
 			});
