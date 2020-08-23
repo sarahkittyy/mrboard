@@ -9,6 +9,7 @@ export default {
 		uploading: false,
 		uploadStatus: false,
 		all: [],
+		fetching: false,
 	}),
 	mutations: {
 		startUploading(state) {
@@ -28,7 +29,13 @@ export default {
 		},
 		setTimes(state, times) {
 			state.all = [...times];
-		}
+		},
+		startFetching(state) {
+			state.fetching = true;
+		},
+		stopFetching(state) {
+			state.fetching = false;
+		},
 	},
 	actions: {
 		submitTime({ commit, dispatch }, form) {
@@ -51,16 +58,19 @@ export default {
 			});
 		},
 		fetchTimes({ commit }) {
+			commit('startFetching');
 			fetch('/api/times')
 			.then(validateCode)
 			.then(async (res) => {
 				let json = await res.json();
 				commit('setTimes', json);
+				commit('stopFetching');
 			})
 			.catch((err) => {
 				console.error(err);
 				Vue.$snotify.error(err.response || 'Unknown error.', 'Could not fetch times');
 				commit('setTimes', []);
+				commit('stopFetching');
 			});
 		},
 	},
