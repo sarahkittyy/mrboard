@@ -23,7 +23,7 @@
 		<v-pagination 
 			total-visible="8"
 			v-model="pagination"
-			:length="Math.max(paginationTimes.length - visibleCt, 1)"
+			:length="Math.max(times.length - visibleCt, 1)"
 		/>
 	</v-container>
 </div>
@@ -32,7 +32,6 @@
 <script>
 import TimeCard from '~/TimeCard';
 
-import { mapGetters } from 'vuex';
 import debounce from 'debounce';
 
 export default {
@@ -41,6 +40,12 @@ export default {
 		pagination: 1,
 		visibleCt: 1,
 	}),
+	props: {
+		times: {
+			type: Array,
+			default: [],
+		}
+	},
 	mounted() {
 		this.$store.dispatch('fetchTimes');
 		
@@ -62,9 +67,7 @@ export default {
 	},
 	computed: {
 		paginationTimes() {
-			let times = [...this.$store.getters.allTimes];
-			let si = this.pagination - 1;
-			return times.slice(si, si + this.visibleCt);
+			return this.times.slice(this.pagination - 1, this.pagination - 1 + this.visibleCt);
 		},
 	},
 }

@@ -1,14 +1,22 @@
 <template>
 <v-card :width="width" :height="height">
 	<template v-if="skeleton">
-		<v-card-text>
+		<v-skeleton-loader type="image" />
+		<v-card-title>
 			<v-skeleton-loader type="text" />
-		</v-card-text>
+		</v-card-title>
+		<v-card-subtitle>
+			<v-skeleton-loader type="text" />
+		</v-card-subtitle>
 	</template>
 	<template v-else>
-		<v-card-text>
+		<v-img :src="time.level.thumbnailURL" />
+		<v-card-title>
 			{{ time.level.name }}
-		</v-card-text>
+		</v-card-title>
+		<v-card-subtitle>
+			{{ time.duration.toFixed(2) }}
+		</v-card-subtitle>
 	</template>
 </v-card>	
 </template>

@@ -3,12 +3,18 @@
 		{
 			"name": "frontend",
 			"script": "npm",
-			"args": "run frontend"
+			"args": "run frontend",
+			"env": {
+				"NODE_ENV": "development"
+			}
 		},
 		{
 			"name": "backend",
 			"script": "npm",
-			"args": "run backend"
+			"args": "run backend",
+			"env": {
+				"NODE_ENV": "development"
+			}
 		}
 	]
 }

@@ -78,6 +78,12 @@ export default {
 		allTimes(state) {
 			return state.all;
 		},
+		recentTimes(state) {
+			return state.all.concat().sort(((a, b) => a.created_at > b.created_at)).slice(0, 25);
+		},
+		topTimes(state) {
+			return state.all;
+		},
 		myTimes(state, getters, rootState) {
 			if (!rootState.auth.me) {
 				return null;

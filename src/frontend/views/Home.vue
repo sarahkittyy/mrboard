@@ -1,6 +1,9 @@
 <template>
 <div>
-	<time-card-carousel />
+	<v-banner class="text-h5 text-center">
+		Recent Times
+	</v-banner>
+	<time-card-carousel :times="$store.getters.recentTimes" />
 </div>
 </template>
 
