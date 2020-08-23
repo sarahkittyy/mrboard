@@ -1,6 +1,6 @@
 <template>
 <div>
-	<v-menu v-if="$store.state.auth.status" offset-y>
+	<v-menu v-if="$store.state.auth.me" offset-y>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn text block v-on="on" v-bind="attrs">
 				<v-row align="center" justify="center">

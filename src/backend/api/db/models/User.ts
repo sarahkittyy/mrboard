@@ -15,6 +15,9 @@ export class User {
 	@prop({ ref: 'Time' })
 	times: Ref<Time>[];
 	
+	@prop({ default: 0 })
+	level: number;
+	
 	static async getUser(id: string) {
 		return await UserModel.findOne({ steam_id: id });
 	}

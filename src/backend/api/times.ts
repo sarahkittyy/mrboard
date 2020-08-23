@@ -11,13 +11,13 @@ import { TimeController } from './db/controllers/TimeController';
 const times = express.Router();
 
 times.get('/', TimeController.all);
-times.get('/me', requireAuth, TimeController.mine);
+times.get('/me', requireAuth(0), TimeController.mine);
 times.get('/:user', [
 	param('user').isNumeric(),
 	assert
 ], TimeController.users);
 times.post('/new', [
-	requireAuth,
+	requireAuth(0),
 	isReplayFile('rpl'),
 	assert
 ], TimeController.new);

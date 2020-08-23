@@ -44,6 +44,6 @@ auth.get('/return',
 	passport.authenticate('steam', { failureRedirect: '/steam/login' }),
 	AuthController.return
 );
-auth.get('/me', requireAuth, AuthController.me);
+auth.get('/me', requireAuth(0), AuthController.me);
 
 export default auth;

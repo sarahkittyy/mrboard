@@ -5,7 +5,7 @@ import validateCode from '../util/validate-code';
 
 export default {
 	state: () => ({
-		status: false,
+		user: false,
 		loading: false,
 		me: null,
 	}),
@@ -21,6 +21,9 @@ export default {
 		},
 		authDone(state) {
 			state.loading = false;
+		},
+		setLevel(state, level) {
+			state.level = level;
 		}
 	},
 	actions: {
