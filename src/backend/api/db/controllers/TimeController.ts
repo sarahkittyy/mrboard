@@ -17,7 +17,6 @@ export class TimeController {
 	public static all = async (req: Request, res: Response) => {
 		return res.send(await TimeModel.find({})
 			.populate('level')
-			.populate('author')
 			.lean());
 	}
 	
@@ -27,8 +26,9 @@ export class TimeController {
 	public static mine = async (req: Request, res: Response) => {
 		let userId = req.user.steam_id;
 		let user = await UserModel.getUser(userId);
+		await user.populate('times').execPopulate();
 		
-		return res.send({ times: user.times ?? [] });
+		return res.send(user.times ?? []);
 	}
 	
 	/**
