@@ -33,6 +33,12 @@ export default {
 	data: () => ({
 		drawerItems: [
 			{
+				name: 'Home',
+				icon: 'mdi-home',
+				fn: 'goTo',
+				arg: '/',
+			},
+			{
 				name: 'Submit Time',
 				icon: 'mdi-cloud-upload',
 				fn: 'goTo',
