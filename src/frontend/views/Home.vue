@@ -1,12 +1,11 @@
 <template>
 <div>
-
+	<time-card-carousel />
 </div>
 </template>
 
 <script>
-import AppBar from '~/AppBar';
-import MainDrawer from '~/MainDrawer';
+import TimeCardCarousel from '~/TimeCardCarousel';
 
 export default {
 	name: 'Home',
@@ -16,6 +15,9 @@ export default {
 	mounted() {
 		document.title = "MRBoard Home";
 		this.$emit('child-init', this.title);
+	},
+	components: {
+		TimeCardCarousel
 	},
 };
 </script>
