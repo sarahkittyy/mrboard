@@ -4,7 +4,7 @@
 	<v-img class="clickable mr-4" @click="toSteamPage()" max-width="40" contain alt="logo" src="/assets/mr-logo.webp" />
 	<v-toolbar-title color="white">marble race community boards</v-toolbar-title>
 	<v-spacer />
-	<span class="text-h5">{{ title }}</span>
+	<div class="text-h5 absolute-center">{{ title }}</div>
 	<v-spacer />
 	<profile-badge />
 </v-app-bar>
@@ -40,6 +40,15 @@ export default {
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.absolute-center {
+	position: absolute;
+	width: 10%;
+	text-align: center;
+	right: 45%;
+	margin: none;
+	padding: none;
 }
 
 </style>
