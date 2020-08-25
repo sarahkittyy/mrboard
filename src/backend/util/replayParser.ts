@@ -4,7 +4,7 @@ export interface ReplayHeader {
 	Author: string;
 	Version: string;
 	Timestamp: number;
-	Id: number;
+	WorkshopId: number;
 	Campaign?: string;
 	Level: string;
 	EntityIds: string[];
@@ -23,8 +23,11 @@ export default function replayParser(tempFilePath: string): Replay | undefined {
 	header = data.slice(0, headerByte);
 	let headerJSON: ReplayHeader = JSON.parse(header.toString());
 	
-	if (!headerJSON.Id) {
-		throw new Error('No ID field in replay file.');
+	if (!headerJSON.WorkshopId) {
+		throw new Error('No WorkshopId field in replay file.');
+	}
+	if (headerJSON.WorkshopId == -1) {
+		throw new Error('Default levels have their own leaderboards in-game.');
 	}
 	if (!headerJSON.Level) {
 		throw new Error('No Level field in replay file.');
