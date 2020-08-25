@@ -44,9 +44,9 @@ export default {
 
 .absolute-center {
 	position: absolute;
-	width: 10%;
+	width: 300px;
+	left: calc(50% - 150px);
 	text-align: center;
-	right: 45%;
 	margin: none;
 	padding: none;
 }
