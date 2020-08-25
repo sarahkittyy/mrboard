@@ -5,6 +5,7 @@ import Home from './views/Home';
 import Page404 from './views/Page404';
 import Times from './views/Times';
 import TimeForm from './views/TimeForm';
+import TimePage from './views/TimePage';
 
 const routes = [
 	{
@@ -23,6 +24,13 @@ const routes = [
 				component: TimeForm,
 				props: {
 					title: 'Submit a new time',
+				}
+			},
+			{
+				path: ':id',
+				component: TimePage,
+				props: {
+					title: 'View time',
 				}
 			},
 		],
