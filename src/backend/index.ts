@@ -2,13 +2,12 @@ require('dotenv').config();
 
 import express from 'express';
 import session from 'express-session';
-import connectMongo from 'connect-mongo';
-import mongoose from 'mongoose';
 import appRoot from 'app-root-path';
 import passport from 'passport';
 import fileUpload from 'express-fileupload';
 
-const MongoStore = connectMongo(session);
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+import sequelizeConnection from './api/db/sequelize';
 
 import api from './api';
 
@@ -19,8 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
 	secret: process.env.SECRET,
-	store: new MongoStore({
-		mongooseConnection: mongoose.connection,
+	store: new SequelizeStore({
+		db: sequelizeConnection,
 	}),
 	resave: false,
 	saveUninitialized: false,

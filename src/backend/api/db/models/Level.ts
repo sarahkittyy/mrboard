@@ -1,23 +1,25 @@
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
+import { Table, Column, Model, HasMany } from 'sequelize-typescript';
 
-import { Time } from './Time';
+import Time from './Time';
 
-export class Level {
-	@prop()
+@Table({
+	timestamps: true,
+})
+export default class Level extends Model {
+	@Column
 	steam_id: string;
 	
-	@prop()
+	@Column
 	name: string;
 	
-	@prop()
-	campaign?: string;
+	@Column({
+		allowNull: true,
+	})
+	campaign: string;
 	
-	@prop({ ref: 'Time' })
-	times: Ref<Time>[];
+	@HasMany(() => Time)
+	times: Time[];
 	
-	@prop()
+	@Column
 	thumbnailURL: string;
 };
-
-const LevelModel = getModelForClass(Level);
-export { LevelModel };

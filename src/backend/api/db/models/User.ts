@@ -1,27 +1,23 @@
-import mongoose from 'mongoose';
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
+import { Table, Column, Model, HasMany } from 'sequelize-typescript';
 
-import { Time } from './Time';
+import Time from './Time';
 
-export class User {
-	@prop()
+@Table({
+	timestamps: true,
+})
+export default class User extends Model {
+	@Column
 	steam_id: string;
 	
-	@prop()
+	@Column
 	name: string;
-	@prop()
+	
+	@Column
 	avatarURL: string;
 	
-	@prop({ ref: 'Time' })
-	times: Ref<Time>[];
+	@HasMany(() => Time)
+	times: Time[];
 	
-	@prop({ default: 0 })
+	@Column
 	level: number;
-	
-	static async getUser(id: string) {
-		return await UserModel.findOne({ steam_id: id });
-	}
 };
-
-const UserModel = getModelForClass(User);
-export { UserModel };

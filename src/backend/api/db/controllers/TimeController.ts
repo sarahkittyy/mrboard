@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-import { TimeModel, Time } from '../models/Time';
-import { UserModel } from '../models/User';
-import { LevelModel } from '../models/Level';
+import Time from '../models/Time';
+import User from '../models/User';
+import Level from '../models/Level';
 
 import replayParser, { Replay } from '../../../util/replayParser';
 
@@ -15,9 +15,7 @@ export class TimeController {
 	 * get all times
 	 */
 	public static all = async (req: Request, res: Response) => {
-		return res.send(await TimeModel.find({})
-			.populate('level')
-			.lean());
+		return res.send(await Time.findAll({ include: [Level] }));
 	}
 	
 	/**
@@ -25,9 +23,8 @@ export class TimeController {
 	 */
 	public static mine = async (req: Request, res: Response) => {
 		let userId = req.user.steam_id;
-		let user = await UserModel.getUser(userId);
-		await user.populate('times').execPopulate();
-		
+		let user = await User.findOne({ where: { steam_id: userId }, include: [Time]});
+
 		return res.send(user.times ?? []);
 	}
 	
@@ -35,17 +32,13 @@ export class TimeController {
 	 * get all times of a specific user
 	 */
 	public static users = async (req: Request, res: Response) => {
-		let user = await UserModel.findOne({
-			_id: req.params.user
-		}, 'times')
-		.populate('times')
-		.lean();
+		let user = await User.findOne({ attributes: ['times'], where: { id: req.params.id }});
 		
 		if (!user) {
 			return res.status(404).send(`Could not find user ${req.params.user}`);
 		}
 		
-		return res.send({ times: user.times ?? [] });
+		return res.send(user.times ?? []);
 	}
 	
 	/**
@@ -62,10 +55,10 @@ export class TimeController {
 		}
 		
 		// try to find the associated level
-		let level = await LevelModel.findOne({ steam_id: data.Id.toString(), name: data.Level });
+		let level = await Level.findOne({ where: { steam_id: data.Id.toString(), name: data.Level }});
 		if (!level) {
 			// add this level to the db
-			level = new LevelModel();
+			level = new Level();
 			level.steam_id = data.Id.toString();
 			level.name = data.Level;
 			level.campaign = data.Campaign;
@@ -82,18 +75,18 @@ export class TimeController {
 		rpl.mv(filename);
 		
 		// get the submitting author
-		let author = await UserModel.getUser(req.user.steam_id);
+		let author = await User.findOne({ where: { steam_id: req.user.steam_id }});
 		
 		// see if the time exists
-		let time = await TimeModel.findOne({
-			level: level._id,
-			author: author._id,
-		});
+		let time = await Time.findOne({ where: {
+			levelID: level.id,
+			authorID: author.id,
+		}});
 		// create the model if it doesn't exist
 		if (!time) {
-			time = new TimeModel();
-			time.level = level;
-			time.author = author;
+			time = new Time();
+			time.levelID = level.id;
+			time.authorID = author.id;
 		}
 		// update to the latest, best time
 		time.duration = data.time;
@@ -101,12 +94,6 @@ export class TimeController {
 		time.verified = false;
 		time.replay = filename;
 		time.save();
-		
-		// update relationships
-		level.times.push(time);
-		author.times.push(time);
-		level.save();
-		author.save();
 
 		// respond successful
 		return res.send('Success');

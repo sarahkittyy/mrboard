@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
-import { User, UserModel } from './db/models/User';
+import User from './db/models/User';
 import { Strategy as SteamStrategy } from 'passport-steam';
 import requireAuth from './middleware/requireAuth';
 
@@ -13,7 +13,7 @@ passport.serializeUser((user: User, done) => {
 });
 
 passport.deserializeUser((id: string, done) => {
-	UserModel.getUser(id).then((user) => {
+	User.findOne({ where: { steam_id: id }}).then((user) => {
 		return done(null, user);
 	})
 	.catch((err) => {
@@ -26,9 +26,9 @@ passport.use(new SteamStrategy({
 	realm: `https://${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}/`,
 	apiKey: process.env.STEAM_API_KEY,
 }, async (identifier: string, profile: any, done: Function) => {
-	let user = await UserModel.getUser(profile.id)
+	let user = await User.findOne({where: { steam_id: profile.id }});
 	if (!user) {
-		user = new UserModel();
+		user = new User();
 		user.steam_id = profile.id;
 		user.name = profile.displayName;
 		user.avatarURL = profile._json.avatarmedium;

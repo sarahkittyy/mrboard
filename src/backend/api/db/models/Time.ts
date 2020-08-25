@@ -1,28 +1,36 @@
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
-import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
+import { Table, Column, Model, BelongsTo, ForeignKey } from 'sequelize-typescript';
 
-import { Level } from './Level';
-import { User } from './User';
+import Level from './Level';
+import User from './User';
 
-export class Time extends TimeStamps {
-	@prop({ ref: 'Level' })
-	level!: Ref<Level>;
+@Table({
+	timestamps: true,
+})
+export default class Time extends Model {
+	@ForeignKey(() => Level)
+	@Column
+	levelID: number;
 	
-	@prop({ ref: 'User' })
-	author!: Ref<User>;
+	@BelongsTo(() => Level)
+	level: Level;
 	
-	@prop()
-	timestamp!: Date;
+	@ForeignKey(() => User)
+	@Column
+	authorID: number;
+	@BelongsTo(() => User)
+	author: User;
 	
-	@prop()
+	@Column({
+		allowNull: false,
+	})
+	timestamp: Date;
+	
+	@Column
 	duration: number;
 	
-	@prop()
+	@Column
 	verified: boolean;
 	
-	@prop()
+	@Column
 	replay: string;
 };
-
-const TimeModel = getModelForClass(Time);
-export { TimeModel };

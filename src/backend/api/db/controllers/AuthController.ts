@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 
-import { UserModel } from '../models/User';
+import User from '../models/User';
 
 export class AuthController {
 	/**

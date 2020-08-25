@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../db/models/User';
+import User from '../db/models/User';
 
 export default function requireAuth(minlevel: number = 0) {
 	return (req: Request, res: Response, next: NextFunction) => {
@@ -12,4 +12,4 @@ export default function requireAuth(minlevel: number = 0) {
 
 		return res.status(401).send('No permission');
 	};
-}
+};
