@@ -49,11 +49,11 @@ export default {
 			.then(res => {
 				Vue.$snotify.success('Redirecting you home...', 'Replay upload successful!');
 				commit('uploadSuccess');
-				dispatch('getAllTimes');
+				dispatch('fetchTimes');
 			})
 			.catch(err => {
 				console.error(err);
-				Vue.$snotify.error(err.response || 'Unknown error.', 'Replay upload failed.');
+				Vue.$snotify.error(err.response.data || 'Unknown error.', 'Replay upload failed.');
 				commit('uploadFailed');
 			});
 		},
@@ -73,6 +73,27 @@ export default {
 				commit('stopFetching');
 			});
 		},
+		downloadTime(_, id) {
+			axios({
+				url: `/api/times/id/${encodeURIComponent(id)}/download`,
+				method: 'GET',
+				response: 'blob'
+			})
+			.then(async (res) => {
+				var fileURL = window.URL.createObjectURL(new Blob([res.data]));
+				var fileLink = document.createElement('a');
+		   
+				fileLink.href = fileURL;
+				fileLink.setAttribute('download', 'replay.rpl');
+				document.body.appendChild(fileLink);
+		   
+				fileLink.click();
+			})
+			.catch(err => {
+				console.error(err);
+				Vue.$snotify.error(err.response.data || 'Unknown error.', 'Could not download .rpl file.');
+			});
+		}
 	},
 	getters: {
 		allTimes(state) {
