@@ -50,20 +50,18 @@ export default {
 		this.$store.dispatch('fetchTimes');
 		
 		this.computeVisibleCt();
-		window.addEventListener('resize', debounce(() => {
-			this.computeVisibleCt();
-		}, 400));
+		window.addEventListener('resize', this.computeVisibleCt);
 	},
 	beforeDestroy() {
-		window.removeEventListener('resize');
+		window.removeEventListener('resize', this.computeVisibleCt);
 	},
 	components: {
 		TimeCard,
 	},
 	methods: {
-		computeVisibleCt() {
+		computeVisibleCt: debounce(function() {
 			this.visibleCt = Math.floor(window.innerWidth / 300) - 1;
-		},
+		}, 400),
 	},
 	computed: {
 		paginationTimes() {
