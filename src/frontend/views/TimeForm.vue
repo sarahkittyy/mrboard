@@ -67,7 +67,9 @@ export default {
 	},
 	computed: {
 		authorized() {
-			return this.$store.state.auth.status && !this.$store.state.auth.loading;
+			let a = this.$store.state.auth.status;
+			let b = this.$store.state.auth.loading;
+			return a && !b;
 		},
 		doneUploading() {
 			return !this.$store.state.times.uploading && this.$store.state.times.uploadStatus;	
