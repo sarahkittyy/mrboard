@@ -10,6 +10,8 @@ import replayParser, { Replay } from '../../../util/replayParser';
 import { getThumbnailURL } from '../../../util/steam';
 import { UploadedFile } from 'express-fileupload';
 
+import appRoot from 'app-root-path';
+
 export class TimeController {
 	/**
 	 * get all times
@@ -32,13 +34,41 @@ export class TimeController {
 	 * get all times of a specific user
 	 */
 	public static users = async (req: Request, res: Response) => {
-		let user = await User.findOne({ attributes: ['times'], where: { id: req.params.id }});
+		let user = await User.findOne({ attributes: ['times'], where: { id: req.params.user }});
 		
 		if (!user) {
 			return res.status(404).send(`Could not find user ${req.params.user}`);
 		}
 		
 		return res.send(user.times ?? []);
+	}
+	
+	/**
+	 * get data of a specifc time
+	 * @ req.params.id
+	 */
+	public static get = async (req: Request, res: Response) => {
+		let time = await Time.findOne({ where: { id: req.params.id }});
+		
+		if (!time) {
+			return res.status(404).send(`Could not find time ${req.params.id}`);
+		}
+		
+		return res.send(time);
+	}
+	
+	/**
+	 * download the replay file of a specific time
+	 * @ req.params.id
+	 */
+	public static download = async (req: Request, res: Response) => {
+		let time = await Time.findOne({ where: { id: req.params.id }});
+		
+		if (!time) {
+			return res.status(404).send(`Could not find time ${req.params.id}`);
+		}
+		
+		return res.download(appRoot.resolve(time.replay));
 	}
 	
 	/**
@@ -55,15 +85,15 @@ export class TimeController {
 		}
 		
 		// try to find the associated level
-		let level = await Level.findOne({ where: { steam_id: data.Id.toString(), name: data.Level }});
+		let level = await Level.findOne({ where: { steam_id: data.WorkshopId.toString(), name: data.Level }});
 		if (!level) {
 			// add this level to the db
 			level = new Level();
-			level.steam_id = data.Id.toString();
+			level.steam_id = data.WorkshopId.toString();
 			level.name = data.Level;
 			level.campaign = data.Campaign;
 			try {
-				level.thumbnailURL = await getThumbnailURL(data.Id.toString());
+				level.thumbnailURL = await getThumbnailURL(data.WorkshopId.toString());
 			} catch (err) {
 				return res.status(500).send('Internal server error.');
 			}
