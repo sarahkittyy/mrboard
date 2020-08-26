@@ -1,4 +1,4 @@
-import { Table, Column, Model, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, BelongsTo, ForeignKey, DataType } from 'sequelize-typescript';
 
 import Level from './Level';
 import User from './User';
@@ -25,7 +25,7 @@ export default class Time extends Model {
 	})
 	timestamp: Date;
 	
-	@Column
+	@Column(DataType.FLOAT)
 	duration: number;
 	
 	@Column

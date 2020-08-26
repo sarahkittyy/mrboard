@@ -4,6 +4,8 @@ import fetch from 'node-fetch';
 import axios from 'axios';
 import validateCode from '../util/validate-code';
 
+import moment from 'moment';
+
 export default {
 	state: () => ({
 		uploading: false,
@@ -93,6 +95,10 @@ export default {
 				console.error(err);
 				Vue.$snotify.error(err.response.data || 'Unknown error.', 'Could not download .rpl file.');
 			});
+		},
+		report(_, id) {
+			//TODO
+			Vue.$snotify.success('Report submitted.', 'Success!');
 		}
 	},
 	getters: {

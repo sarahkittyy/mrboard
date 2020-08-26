@@ -5,7 +5,7 @@ import Home from './views/Home';
 import Page404 from './views/Page404';
 import Times from './views/Times';
 import TimeForm from './views/TimeForm';
-import TimePage from './views/TimePage';
+import LevelPage from './views/LevelPage';
 
 const routes = [
 	{
@@ -25,15 +25,15 @@ const routes = [
 				props: {
 					title: 'Submit a new time',
 				}
-			},
-			{
-				path: ':id',
-				component: TimePage,
-				props: {
-					title: 'View time',
-				}
-			},
+			}
 		],
+	},
+	{
+		path: '/levels/:id',
+		component: LevelPage,
+		props: {
+			title: 'View level records'
+		}
 	},
 	{ path: '*', component: Page404 },
 ];

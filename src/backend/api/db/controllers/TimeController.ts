@@ -17,7 +17,7 @@ export class TimeController {
 	 * get all times
 	 */
 	public static all = async (req: Request, res: Response) => {
-		return res.send(await Time.findAll({ include: [Level] }));
+		return res.send(await Time.findAll({ include: [Level, User] }));
 	}
 	
 	/**
