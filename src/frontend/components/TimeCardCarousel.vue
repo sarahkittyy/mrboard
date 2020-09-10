@@ -6,7 +6,12 @@
 	>
 		<v-row align="center" justify="center">
 			<v-col v-for="n in visibleCt" cols="auto">
-				<time-card :key="n" skeleton />
+				<time-card
+					:key="n"
+					skeleton
+					:width="`${timeCardSize}px`"
+					:height="`${timeCardSize}px`"
+				/>
 			</v-col> 
 		</v-row>
 		<v-pagination :length="visibleCt" disabled />
@@ -17,7 +22,12 @@
 	<v-container v-else>
 		<v-row align="center" justify="center">
 			<v-col v-for="(time, index) in paginationTimes" cols="auto">
-				<time-card :key="index" :time="time" />
+				<time-card
+					:key="index"
+					:time="time"
+					:width="`${timeCardSize}px`"
+					:height="`${timeCardSize}px`"
+				/>
 			</v-col>
 		</v-row>
 		<v-pagination 
@@ -39,6 +49,7 @@ export default {
 	data: () => ({
 		pagination: 1,
 		visibleCt: 1,
+		timeCardSize: 300,
 	}),
 	props: {
 		times: {
@@ -60,7 +71,7 @@ export default {
 	},
 	methods: {
 		computeVisibleCt: debounce(function() {
-			this.visibleCt = Math.floor(window.innerWidth / 300) - 1;
+			this.visibleCt = Math.floor(window.innerWidth / this.timeCardSize) - 1;
 		}, 400),
 	},
 	computed: {

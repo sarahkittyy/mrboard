@@ -16,7 +16,7 @@
 				{{ time.level.name }}
 			</v-card-title>
 			<v-card-subtitle>
-				{{ time.duration.toFixed(2) }}
+				{{ time.duration.toFixed(2) }}<br />
 			</v-card-subtitle>
 			<v-card-actions>
 				<v-tooltip top>
@@ -43,7 +43,9 @@
 						{{ time.level.name }}
 					</v-card-title>
 					<v-card-subtitle>
-						Time: {{ time.duration.toFixed(2) }}
+						Time: {{ time.duration.toFixed(2) }}<br />
+						Set on: {{ dateString }}<br />
+						Posted: {{ uploadedString }}
 					</v-card-subtitle>
 					<v-card-actions>
 						<v-btn text @click="toSteamPage">
@@ -94,7 +96,15 @@ export default {
 		toLevelPage() {
 			this.$router.push(`/levels/${encodeURIComponent(this.time.level.id)}`);
 		}
-	}
+	},
+	computed: {
+		dateString() {
+			return new Date(this.time.timestamp).toLocaleDateString();
+		},
+		uploadedString() {
+			return new Date(this.time.createdAt).toLocaleDateString();
+		}
+	},
 }
 </script>
 
