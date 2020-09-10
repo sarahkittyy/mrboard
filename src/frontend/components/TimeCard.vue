@@ -20,13 +20,13 @@
 			</v-card-subtitle>
 			<v-card-actions>
 				<v-tooltip top>
-					<template v-slot:activator="{ on, attrs }">
+					<template v-slot:activator="{ on }">
 						<v-btn icon @mousedown.stop @mouseover.stop @click.stop="toSteamPage" v-on="on"><v-icon>mdi-steam</v-icon></v-btn>
 					</template>
 					<span>go to steam page</span>
 				</v-tooltip>
 				<v-tooltip top>
-					<template v-slot:activator="{ on, attrs }">
+					<template v-slot:activator="{ on }">
 						<v-btn icon @mousedown.stop @mouseover.stop @click.stop="downloadReplay" v-on="on"><v-icon>mdi-download</v-icon></v-btn>
 					</template>
 					<span>download .rpl file</span>
