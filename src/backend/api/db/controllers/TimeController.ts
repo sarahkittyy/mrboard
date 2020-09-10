@@ -97,9 +97,8 @@ export class TimeController {
 			level.save();
 		}
 
-		// save the replay file
+		// temporary filename for if the time gets submitted successfully
 		let filename: string = `storage/${uuidv4()}.rpl`;
-		rpl.mv(filename);
 
 		// get the submitting author
 		let author = await User.findOne({ where: { steam_id: req.user.steam_id } });
@@ -123,6 +122,9 @@ export class TimeController {
 		time.verified  = false;
 		time.replay	   = filename;
 		time.save();
+
+		// save the replay file
+		rpl.mv(filename);
 
 		// respond successful
 		return res.send('Success');
