@@ -65,6 +65,13 @@ export default {
 			} else {
 				return 'guest';
 			}
+		},
+		myAuthLevel(state) {
+			if (state.me != null) {
+				return state.me.level;
+			} else {
+				return 0;
+			}
 		}
 	}
 };

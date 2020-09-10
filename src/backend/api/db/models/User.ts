@@ -18,6 +18,10 @@ export default class User extends Model {
 	@HasMany(() => Time)
 	times: Time[];
 	
+	// 0 -> not logged in
+	// 1 -> logged in, normal user
+	// 2 -> moderator
+	// 3 -> admin
 	@Column
 	level: number;
 };

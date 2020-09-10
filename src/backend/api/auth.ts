@@ -33,6 +33,7 @@ passport.use(new SteamStrategy({
 		user.name = profile.displayName;
 		user.avatarURL = profile._json.avatarmedium;
 		user.times = [];
+		user.level = 1;
 		user.save();
 	}
 	return done(null, user);

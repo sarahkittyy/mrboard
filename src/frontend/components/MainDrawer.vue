@@ -12,7 +12,7 @@
 			</v-list-item-content>
 		</v-list-item>
 		<v-list-item
-			v-for="(item, index) in drawerItems"
+			v-for="(item, index) in menuItems"
 			:key="index"
 			@click="clickDrawerItem(item.fn, item.arg)"
 		>
@@ -23,6 +23,20 @@
 				{{ item.name }}
 			</v-list-item-title>
 		</v-list-item>
+		<template v-if="$store.getters.myAuthLevel >= 2">
+			<v-list-item>
+				<v-list-item-content>
+					<h1>Moderator</h1>
+				</v-list-item-content>
+			</v-list-item>
+		</template>
+		<template v-if="$store.getters.myAuthLevel >= 3">
+			<v-list-item>
+				<v-list-item-content>
+					<h1>Admin</h1>
+				</v-list-item-content>
+			</v-list-item>
+		</template>
 	</v-list>
 </v-navigation-drawer>
 </template>
@@ -31,7 +45,7 @@
 export default {
 	name: 'MainDrawer',
 	data: () => ({
-		drawerItems: [
+		menuItems: [
 			{
 				name: 'Home',
 				icon: 'mdi-home',
@@ -76,6 +90,7 @@ export default {
 		}
 	},
 	mounted() {
+		this.$store.dispatch('refreshAuth');
 		window.addEventListener('keydown', this.keydown);
 	},
 	beforeDestroy() {
