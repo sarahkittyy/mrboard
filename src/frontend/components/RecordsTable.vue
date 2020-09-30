@@ -26,31 +26,31 @@
 				</v-toolbar>
 			</template>
 		
-			<template v-slot:item.author.name="{ item }">
+			<template v-slot:[`item.author.name`]="{ item }">
 				<v-avatar size="36" class="mr-1">
 					<v-img :src="item.author.avatarURL" />
 				</v-avatar>
 				{{ item.author.name }}
 			</template>
 			
-			<template v-slot:item.duration="{ item }">
+			<template v-slot:[`item.duration`]="{ item }">
 				{{ item.duration.toFixed(2) }}
 			</template>
 			
-			<template v-slot:item.timestamp="{ item }">
+			<template v-slot:[`item.timestamp`]="{ item }">
 				{{ new Date(item.timestamp).toDateString() }}
 				{{ new Date(item.timestamp).toLocaleTimeString() }}
 			</template>
 			
-			<template v-slot:item.verified="{ item }">
+			<template v-slot:[`item.verified`]="{ item }">
 				<v-simple-checkbox readonly :value="item.verified" disabled />
 			</template>
 			
-			<template v-slot:item.download="{ item }">
+			<template v-slot:[`item.download`]="{ item }">
 				<v-btn icon @click="download(item.id)"><v-icon>mdi-download</v-icon></v-btn>
 			</template>
 			
-			<template v-slot:item.report="{ item }">
+			<template v-slot:[`item.report`]="{ item }">
 				<v-btn v-if="!item.verified" icon @click="report(item.id)">
 					<v-icon>mdi-alert</v-icon>
 				</v-btn>
