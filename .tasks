@@ -1,3 +1,4 @@
 [test]
 
 command=vagrant up && vagrant provision --provision-with dev
+output=terminal
