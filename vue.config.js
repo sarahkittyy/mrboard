@@ -2,6 +2,7 @@ const { resolve } = require('path');
 
 module.exports = {
 	outputDir: 'dist/frontend',
+  publicPath: process.env.NODE_ENV === 'production' ? '/mrboard' : '/',
 	pages: {
 		index: {
 			entry: 'src/frontend/index.js',
