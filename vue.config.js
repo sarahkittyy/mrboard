@@ -23,7 +23,7 @@ module.exports = {
 		cert: resolve(__dirname, 'server.cert'),
 		proxy: {
 			'/': {
-				target: 'http://0.0.0.0:3000',
+        target: `http://0.0.0.0:${process.env.BACKEND_PORT}`,
 			},
 		},
 		writeToDisk: true,

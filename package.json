@@ -6,6 +6,7 @@
   "scripts": {
     "frontend": "vue-cli-service serve",
     "backend": "tsc-watch --onSuccess 'node .'",
+    "backend-prod": "tsc && node dist/backend/index.js",
     "build": "vue-cli-service build",
     "dev": "pm2 start pm2.config.dev.json",
     "prod-pm2": "npm run build && pm2 start pm2.config.prod.json",

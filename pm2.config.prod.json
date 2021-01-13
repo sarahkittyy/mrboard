@@ -3,7 +3,7 @@
 		{
 			"name": "backend",
 			"script": "npm",
-			"args": "run backend"
+			"args": "run backend-prod"
 		}
 	]
 }

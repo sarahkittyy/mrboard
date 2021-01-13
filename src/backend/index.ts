@@ -46,6 +46,7 @@ app.get('/*', (req, res) => {
 });
 
 let basePort = parseInt(process.env.BACKEND_PORT ?? '3000');
+console.log(process.env.BACKEND_PORT);
 
 app.listen(basePort, () => {
 	console.log(`listening on port ${basePort}`);
