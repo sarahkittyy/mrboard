@@ -1,8 +1,9 @@
 const { resolve } = require('path');
+require('dotenv').config();
 
 module.exports = {
 	outputDir: 'dist/frontend',
-  publicPath: process.env.NODE_ENV === 'production' ? '/mrboard' : '/',
+  publicPath: process.env.PUBLIC_PATH,
 	pages: {
 		index: {
 			entry: 'src/frontend/index.js',
