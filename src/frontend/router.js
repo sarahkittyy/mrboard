@@ -6,6 +6,7 @@ import Page404 from './views/Page404';
 import Times from './views/Times';
 import TimeForm from './views/TimeForm';
 import LevelPage from './views/LevelPage';
+import Reports from './views/Reports.vue';
 
 const routes = [
 	{
@@ -33,6 +34,13 @@ const routes = [
 		component: LevelPage,
 		props: {
 			title: 'View level records'
+		}
+	},
+	{
+		path: '/reports',
+		component: Reports,
+		props: {
+			title: 'Active reports',
 		}
 	},
 	{ path: '*', component: Page404 },

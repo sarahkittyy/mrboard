@@ -13,7 +13,7 @@
 		</v-list-item>
 		<v-list-item
 			v-for="(item, index) in menuItems"
-			:key="index"
+			:key="'norm' + index"
 			@click="clickDrawerItem(item.fn, item.arg)"
 		>
 			<v-list-item-icon>
@@ -23,19 +23,45 @@
 				{{ item.name }}
 			</v-list-item-title>
 		</v-list-item>
+    <!-- moderator items -->
 		<template v-if="$store.getters.myAuthLevel >= 2">
 			<v-list-item>
 				<v-list-item-content>
 					<h1>Moderator</h1>
 				</v-list-item-content>
 			</v-list-item>
+      <v-list-item
+        v-for="(item, index) in menuItemsModerator"
+        :key="'mod' + index"
+        @click="clickDrawerItem(item.fn, item.arg)"
+      >
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+          {{ item.name }}
+        </v-list-item-title>
+      </v-list-item>
 		</template>
-		<template v-if="$store.getters.myAuthLevel >= 3">
-			<v-list-item>
-				<v-list-item-content>
-					<h1>Admin</h1>
-				</v-list-item-content>
-			</v-list-item>
+    <!-- admin items -->
+    <template v-if="$store.getters.myAuthLevel >= 3">
+      <v-list-item>
+        <v-list-item-content>
+          <h1>Admin</h1>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        v-for="(item, index) in menuItemsAdmin"
+        :key="'admin' + index"
+        @click="clickDrawerItem(item.fn, item.arg)"
+      >
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+          {{ item.name }}
+        </v-list-item-title>
+      </v-list-item>
 		</template>
 	</v-list>
 </v-navigation-drawer>
@@ -59,6 +85,16 @@ export default {
 				arg: '/times/submit'
 			}
 		],
+    menuItemsModerator: [
+      {
+        name: 'Reports',
+        icon: 'mdi-alert',
+        fn: 'goTo',
+        arg: '/reports'
+      }
+    ],
+    menuItemsAdmin: [
+    ],
 	}),
 	props: {
 		value: {

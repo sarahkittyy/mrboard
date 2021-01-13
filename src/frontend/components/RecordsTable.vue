@@ -51,7 +51,7 @@
 			</template>
 			
 			<template v-slot:[`item.report`]="{ item }">
-				<v-btn v-if="!item.verified" icon @click="report(item.id)">
+				<v-btn v-if="!item.verified" icon @click="promptReason(item.id)">
 					<v-icon>mdi-alert</v-icon>
 				</v-btn>
 				<v-btn v-else icon @click="cannotReport">
@@ -60,10 +60,18 @@
 			</template>
 		</v-data-table>
 	</template>
+  <report-overlay 
+    :visible="reportOverlay" 
+    v-model="reportReason" 
+    @close="closeOverlay" 
+    @report="report(reportOverlayTimeID)"
+  />
 </div>
 </template>
 
 <script>
+import ReportOverlay from './ReportOverlay';
+
 export default {
 	name: 'RecordsTable',
 	data: () => ({
@@ -80,6 +88,9 @@ export default {
 			{ text: 'Download', value: 'download', sortable: false },
 			{ text: 'Report', value: 'report', sortable: false },
 		],
+		reportOverlay: false,
+		reportOverlayTimeID: null,
+		reportReason: "",
 	}),
 	props: {
 		times: Array,
@@ -91,8 +102,20 @@ export default {
 		toLevelSteamPage() {
 			window.open(`https://steamcommunity.com/sharedfiles/filedetails/?id=${encodeURIComponent(this.level.steam_id)}`, '_blank');
 		},
-		report(id) {
-			
+		report(time) {
+			this.$store.dispatch('report', { time, reason: this.reportReason });
+			this.reportOverlay = false;
+			this.reportOverlayTimeID = null;
+			this.reportReason = "";
+		},
+		promptReason(time_id) {
+			this.reportOverlay = true;
+			this.reportOverlayTimeID = time_id;
+		},
+		closeOverlay() {
+			this.reportOverlay = false;
+			this.reportOverlayTimeID = null;
+			this.reportReason = ""
 		},
 		cannotReport() {
 			this.$snotify.warning('Time is already verified!', 'Cannot report time.')
@@ -107,6 +130,9 @@ export default {
 			}
 		},
 	},
+  components: {
+    ReportOverlay,
+  },
 };
 </script>
 

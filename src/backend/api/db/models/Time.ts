@@ -1,7 +1,8 @@
-import { Table, Column, Model, BelongsTo, ForeignKey, DataType } from 'sequelize-typescript';
+import { AllowNull, Table, Column, Model, BelongsTo, ForeignKey, DataType, HasMany } from 'sequelize-typescript';
 
 import Level from './Level';
 import User from './User';
+import Report from './Report';
 
 @Table({
 	timestamps: true,
@@ -17,8 +18,12 @@ export default class Time extends Model {
 	@ForeignKey(() => User)
 	@Column
 	authorID: number;
+
 	@BelongsTo(() => User)
 	author: User;
+
+	@HasMany(() => Report)
+	reports: Report[];
 	
 	@Column({
 		allowNull: false,

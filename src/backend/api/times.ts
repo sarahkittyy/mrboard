@@ -1,5 +1,5 @@
 import express from 'express';
-import { param } from 'express-validator';
+import { param, body } from 'express-validator';
 
 import assert from './middleware/assert';
 import requireAuth from './middleware/requireAuth';
@@ -22,9 +22,21 @@ times.get('/id/:id', [
 ], TimeController.get);
 times.get('/id/:id/download', TimeController.download);
 times.post('/new', [
-	requireAuth(0),
+	requireAuth(1),
 	isReplayFile('rpl'),
 	assert
 ], TimeController.new);
+
+times.post('/accept/:id', [
+  requireAuth(2),
+  param('id').isNumeric(),
+  assert
+], TimeController.accept);
+
+times.post('/reject/:id', [
+  requireAuth(2),
+  param('id').isNumeric(),
+  assert
+], TimeController.reject);
 
 export default times;

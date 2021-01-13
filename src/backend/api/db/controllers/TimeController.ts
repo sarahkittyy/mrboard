@@ -2,12 +2,14 @@ import appRoot from 'app-root-path';
 import express, {Request, Response} from 'express';
 import {UploadedFile} from 'express-fileupload';
 import {v4 as uuidv4} from 'uuid';
+import fs from 'fs';
 
 import replayParser, {Replay} from '../../../util/replayParser';
 import {getThumbnailURL} from '../../../util/steam';
 import Level from '../models/Level';
 import Time from '../models/Time';
 import User from '../models/User';
+import Report from '../models/Report';
 
 export class TimeController {
 	/**
@@ -65,8 +67,56 @@ export class TimeController {
 			return res.status(404).send(`Could not find time ${req.params.id}`);
 		}
 
-		return res.download(appRoot.resolve(time.replay));
+		if (!fs.existsSync(appRoot.resolve(time.replay))) {
+			return res.status(404).send(`Server error: Could not find replay file.`);
+		} else {
+			return res.download(appRoot.resolve(time.replay));
+		}
 	}
+
+  /**
+   * accept this time as valid
+   * param('id') - isNumeric - the id of the time to validate
+   */
+  public static accept = async (req: Request, res: Response) => {
+    let time = await Time.findOne({ where: { id: req.params.id }, include: [Report]});
+    if (!time) {
+      return res.status(404).send(`Could not find time ${req.params.id}.`);
+    }
+
+    // set the time as verified
+    time.verified = true;
+    
+    // close every single report of this time
+    time.reports.every((r: Report, i: number) => {
+      r.checked = true;
+      r.save();
+      return true;
+    });
+
+    time.save();
+
+    return res.send('Success!');
+  }
+
+  /**
+   * reject this time as valid
+   * param('id') - isNumeric - the id of the time to invalidate
+   */
+  public static reject = async (req: Request, res: Response) => {
+    let time = await Time.findOne({ where: { id: req.params.id }, include: [Report, Level, User]});
+    if (!time) {
+      return res.status(404).send(`Could not find time ${req.params.id}.`);
+    }
+
+    time.reports.forEach((r: Report) => {
+      r.destroy();
+    });
+
+    time.destroy();
+
+    return res.send('Success!');
+  }
 
 	/**
 	 * post a new time

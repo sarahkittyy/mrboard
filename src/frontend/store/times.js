@@ -75,6 +75,36 @@ export default {
 				commit('stopFetching');
 			});
 		},
+    accept({ commit, dispatch }, id) {
+      fetch(`/api/times/accept/${id}`, {
+        method: 'post'
+      })
+      .then(validateCode)
+      .then(() => {
+        Vue.$snotify.success('Time accepted.', 'Success!');
+        dispatch('fetchTimes');
+        dispatch('fetchReports');
+      })
+      .catch(err => {
+        console.error(err);
+        Vue.$snotify.error(err.response || 'Unknown error.', 'Could not accept time.');
+      });
+    },
+    reject({ commit, dispatch }, id) {
+      fetch(`/api/times/reject/${id}`, {
+        method: 'post'
+      })
+      .then(validateCode)
+      .then(() => {
+        Vue.$snotify.success('Time rejected.', 'Success!');
+        dispatch('fetchReports');
+        dispatch('fetchTimes');
+      })
+      .catch(err => {
+        console.error(err);
+        Vue.$snotify.error(err.response || 'Unknown error.', 'Could not reject time.');
+      });
+    },
 		downloadTime(_, id) {
 			axios({
 				url: `/api/times/id/${encodeURIComponent(id)}/download`,
@@ -96,10 +126,6 @@ export default {
 				Vue.$snotify.error(err.response.data || 'Unknown error.', 'Could not download .rpl file.');
 			});
 		},
-		report(_, id) {
-			//TODO
-			Vue.$snotify.success('Report submitted.', 'Success!');
-		}
 	},
 	getters: {
 		allTimes(state) {
@@ -120,5 +146,11 @@ export default {
 				return state.all.filter(x => x.author == rootState.auth.me._id);
 			}
 		},
+    timesReady(state) {
+      return !!state.all;
+    },
+    timeFromId: (state) => (id) => {
+      return state.all.filter(x => x.id === id)[0];
+    },
 	}
 };

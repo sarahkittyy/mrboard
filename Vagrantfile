@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
   config.vm.provider :virtualbox do |v|
-	v.customize ["modifyvm", :id, "--memory", 2048]
+	v.customize ["modifyvm", :id, "--memory", 4096]
   end
 
   # Create a forwarded port mapping which allows access to a specific port
