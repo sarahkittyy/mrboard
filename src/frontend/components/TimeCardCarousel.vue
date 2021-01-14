@@ -4,7 +4,7 @@
 		v-if="$store.state.times.fetching || $store.state.times.all == null"
 		fluid	
 	>
-		<v-row align="center" justify="center">
+		<v-row align="center" justify="center" class="tc-row">
 			<v-col v-for="(n, i) in visibleCt" :key="'skelly' + i" cols="auto">
 				<time-card
 					:key="n"
@@ -20,7 +20,7 @@
 	<!-- -->
 
 	<v-container v-else>
-		<v-row align="center" justify="center">
+		<v-row align="center" justify="center" class="tc-row">
 			<v-col v-for="(time, index) in paginationTimes" :key="'non-skelly' + index" cols="auto">
 				<time-card
 					:key="index"
@@ -71,12 +71,12 @@ export default {
 	},
 	methods: {
 		computeVisibleCt: debounce(function() {
-			this.visibleCt = Math.floor(window.innerWidth / this.timeCardSize) - 1;
+			this.visibleCt = Math.floor(window.innerWidth / (this.timeCardSize + 32)) - 1;
 		}, 400),
 	},
 	computed: {
 		paginationTimes() {
-			return this.times.slice(this.pagination - 1, this.pagination - 1 + this.visibleCt);
+			return this.times.slice(this.pagination - 1, this.pagination + this.visibleCt);
 		},
 	},
 }
@@ -85,5 +85,10 @@ export default {
 <style lang="scss" scoped>
 
 @use '~@/common';
+
+.tc-row {
+  flex-wrap: nowrap;
+  min-width: 90%;
+}
 
 </style>

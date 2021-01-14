@@ -164,6 +164,8 @@ export class TimeController {
 			time.levelID  = level.id;
 			time.authorID = author.id;
 		} else if (data.time - time.duration >= -0.001) {
+      console.log(data.time);
+      console.log(time.duration);
 			return res.status(400).send(`This record is not faster than the previous.`);
 		}
 		// update to the latest, best time
