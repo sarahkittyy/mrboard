@@ -5,7 +5,7 @@
 		fluid	
 	>
 		<v-row align="center" justify="center">
-			<v-col v-for="n in visibleCt" cols="auto">
+			<v-col v-for="(n, i) in visibleCt" :key="'skelly' + i" cols="auto">
 				<time-card
 					:key="n"
 					skeleton
@@ -21,7 +21,7 @@
 
 	<v-container v-else>
 		<v-row align="center" justify="center">
-			<v-col v-for="(time, index) in paginationTimes" cols="auto">
+			<v-col v-for="(time, index) in paginationTimes" :key="'non-skelly' + index" cols="auto">
 				<time-card
 					:key="index"
 					:time="time"
