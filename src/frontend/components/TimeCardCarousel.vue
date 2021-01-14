@@ -16,8 +16,6 @@
       <v-pagination :length="visibleCt" disabled />
     </v-container>
 
-    <!-- -->
-
     <v-container v-else>
       <v-row align="center" justify="center" class="tc-row">
         <v-col 
