@@ -7,7 +7,6 @@
 		<v-row align="center" justify="center" class="tc-row">
 			<v-col v-for="(n, i) in visibleCt" :key="'skelly' + i" cols="auto">
 				<time-card
-					:key="n"
 					skeleton
 					:width="`${timeCardSize}px`"
 					:height="`${timeCardSize}px`"
@@ -21,9 +20,12 @@
 
 	<v-container v-else>
 		<v-row align="center" justify="center" class="tc-row">
-			<v-col v-for="(time, index) in paginationTimes" :key="'non-skelly' + index" cols="auto">
+			<v-col 
+        v-for="(time, i) in paginationTimes"
+        :key="'valid' + i + pagination"
+        cols="auto"
+      >
 				<time-card
-					:key="index"
 					:time="time"
 					:width="`${timeCardSize}px`"
 					:height="`${timeCardSize}px`"
