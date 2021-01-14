@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports = {
 	outputDir: 'dist/frontend',
-  publicPath: process.env.PUBLIC_PATH,
+	publicPath: process.env.PUBLIC_PATH,
 	pages: {
 		index: {
 			entry: 'src/frontend/index.js',
