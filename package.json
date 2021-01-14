@@ -10,7 +10,7 @@
     "build": "vue-cli-service build",
     "dev": "pm2 start pm2.config.dev.json",
     "prod-pm2": "npm run build && pm2 start pm2.config.prod.json",
-    "stop-pm2": "pm2 stop all"
+    "stop-pm2": "pm2 stop pm2.config.prod.json"
   },
   "author": "Sarah Ohlin <sarahohlin1@gmail.com> (https://github.com/sarahkittyy)",
   "license": "MIT",
