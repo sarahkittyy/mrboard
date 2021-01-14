@@ -35,6 +35,8 @@ app.use(fileUpload({
 }));
 
 app.use('/assets', express.static(appRoot.resolve('assets')));
+app.use('/js', express.static(appRoot.resolve('dist/frontend/js')));
+app.use('/css', express.static(appRoot.resolve('dist/frontend/css')));
 app.get('/favicon.ico', (req, res) => { res.sendFile(appRoot.resolve('assets/favicon.ico')); });
 
 app.use(log);
