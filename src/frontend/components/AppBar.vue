@@ -2,7 +2,7 @@
 <v-app-bar app fixed color="primary">
 	<v-app-bar-nav-icon @click="$emit('open-drawer');" />
 	<v-img class="clickable mr-4" @click="toSteamPage()" max-width="40" contain alt="logo" src="/assets/mr-logo.webp" />
-	<v-toolbar-title color="white">marble race community boards</v-toolbar-title>
+	<v-toolbar-title color="white">marble race community boards [beta]</v-toolbar-title>
 	<v-spacer />
 	<div class="text-h5 absolute-center">{{ title }}</div>
 	<v-spacer />
