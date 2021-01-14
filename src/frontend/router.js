@@ -46,6 +46,6 @@ const routes = [
 	{ path: '*', component: Page404 },
 ];
 
-const router = new VueRouter({ routes, mode: 'history' });
+const router = new VueRouter({ routes, mode: 'history', base: process.env.BASE_URL });
 
 export default router;
