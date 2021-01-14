@@ -115,11 +115,14 @@
   </div>
 </template>
 <script>
+import escape from '../mixins/escape';
+
 export default {
   name: 'ReportsTable',
   props: {
     reports: Array,
   },
+  mixins: [escape],
   data: () => ({
     currentOverlayReason: '',
     overlayOpen: false,
@@ -142,6 +145,9 @@ export default {
     this.$store.dispatch('fetchUsers');
   },
   methods: {
+    escape() {
+      this.closeOverlay();
+    },
     toLevelSteamPage(level) {
       window.open(`https://steamcommunity.com/sharedfiles/filedetails/?id=${encodeURIComponent(level.steam_id)}`, '_blank');
     },

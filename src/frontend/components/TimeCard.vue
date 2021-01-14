@@ -94,8 +94,11 @@
 <script>
 import ReportOverlay from '~/ReportOverlay';
 
+import escape from '../mixins/escape';
+
 export default {
   name: 'TimeCard',
+  mixins: [escape],
   data: () => ({
     overlay: false,
     reportOverlay: false,
@@ -111,6 +114,10 @@ export default {
     },
   },
   methods: {
+    escape() {
+      this.overlay = false;
+      this.closeReport();
+    },
     toSteamPage() {
       window.open(`https://steamcommunity.com/sharedfiles/filedetails/?id=${encodeURIComponent(this.time.level.steam_id)}`, '_blank');
     },
