@@ -1,7 +1,7 @@
 {
 	"apps": [
 		{
-			"name": "backend",
+			"name": "backend-mrboard",
 			"script": "npm",
 			"args": "run backend-prod"
 		}
