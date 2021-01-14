@@ -144,7 +144,7 @@ export class TimeController {
 			} catch (err) {
 				return res.status(500).send('Internal server error.');
 			}
-			level.save();
+			await level.save();
 		}
 
 		// temporary filename for if the time gets submitted successfully
