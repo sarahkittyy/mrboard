@@ -16,23 +16,23 @@ import Index from './views/Index';
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 Vue.use(Snotify, {
-	toast: {
-		position: SnotifyPosition.rightBottom,
-		timeout: 2000,
-		titleMaxLength: 25,
-	},
+  toast: {
+    position: SnotifyPosition.rightBottom,
+    timeout: 2000,
+    titleMaxLength: 25,
+  },
 });
 
 Vue.component('index', Index);
 
 const vm = new Vue({
-	router,
-	store,
-	vuetify,
-	template: '<v-main><index /></v-main>',
-	beforeCreate() {
-		Vue.$snotify = this.$snotify;
-	}
+  router,
+  store,
+  vuetify,
+  template: '<v-main><index /></v-main>',
+  beforeCreate() {
+    Vue.$snotify = this.$snotify;
+  }
 }).$mount('#root');
 
 window.vm = vm;

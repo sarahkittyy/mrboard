@@ -1,18 +1,18 @@
 <template>
-<router-view @child-init="onChildInit" />
+  <router-view @child-init="onChildInit" />
 </template>
 
 <script>
 
 export default {
-	name: 'Times',
-	data: () => ({
-	}),
-	methods: {
-		onChildInit(v) {
-			this.$emit('child-init', v);
-		}
-	}
+  name: 'Times',
+  data: () => ({
+  }),
+  methods: {
+    onChildInit(v) {
+      this.$emit('child-init', v);
+    }
+  }
 };
 </script>
 

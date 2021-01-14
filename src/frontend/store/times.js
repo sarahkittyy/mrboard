@@ -7,150 +7,150 @@ import validateCode from '../util/validate-code';
 import moment from 'moment';
 
 export default {
-	state: () => ({
-		uploading: false,
-		uploadStatus: false,
-		all: [],
-		fetching: false,
-	}),
-	mutations: {
-		startUploading(state) {
-			state.uploading = true;
-		},
-		uploadFailed(state) {
-			state.uploadStatus = false;
-			state.uploading = false;
-		},
-		uploadSuccess(state) {
-			state.uploadStatus = true;
-			state.uploading = false;
-		},
-		resetUploadState(state) {
-			state.uploading = false;
-			state.uploadStatus = false;
-		},
-		setTimes(state, times) {
-			state.all = [...times];
-		},
-		startFetching(state) {
-			state.fetching = true;
-		},
-		stopFetching(state) {
-			state.fetching = false;
-		},
-	},
-	actions: {
-		submitTime({ commit, dispatch }, form) {
-			commit('startUploading');
-			
-			axios.post('/api/times/new', form, {
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				},
-			})
-			.then(res => {
-				Vue.$snotify.success('Redirecting you home...', 'Replay upload successful!');
-				commit('uploadSuccess');
-				dispatch('fetchTimes');
-			})
-			.catch(err => {
-				console.error(err);
-				Vue.$snotify.error(err.response.data || 'Unknown error.', 'Replay upload failed.');
-				commit('uploadFailed');
-			});
-		},
-		fetchTimes({ commit }) {
-			commit('startFetching');
-			fetch('/api/times')
-			.then(validateCode)
-			.then(async (res) => {
-				let json = await res.json();
-				commit('setTimes', json);
-				commit('stopFetching');
-			})
-			.catch((err) => {
-				console.error(err);
-				Vue.$snotify.error(err.response || 'Unknown error.', 'Could not fetch times');
-				commit('setTimes', []);
-				commit('stopFetching');
-			});
-		},
+  state: () => ({
+    uploading: false,
+    uploadStatus: false,
+    all: [],
+    fetching: false,
+  }),
+  mutations: {
+    startUploading(state) {
+      state.uploading = true;
+    },
+    uploadFailed(state) {
+      state.uploadStatus = false;
+      state.uploading = false;
+    },
+    uploadSuccess(state) {
+      state.uploadStatus = true;
+      state.uploading = false;
+    },
+    resetUploadState(state) {
+      state.uploading = false;
+      state.uploadStatus = false;
+    },
+    setTimes(state, times) {
+      state.all = [...times];
+    },
+    startFetching(state) {
+      state.fetching = true;
+    },
+    stopFetching(state) {
+      state.fetching = false;
+    },
+  },
+  actions: {
+    submitTime({ commit, dispatch }, form) {
+      commit('startUploading');
+
+      axios.post('/api/times/new', form, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      })
+        .then(res => {
+          Vue.$snotify.success('Redirecting you home...', 'Replay upload successful!');
+          commit('uploadSuccess');
+          dispatch('fetchTimes');
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response.data || 'Unknown error.', 'Replay upload failed.');
+          commit('uploadFailed');
+        });
+    },
+    fetchTimes({ commit }) {
+      commit('startFetching');
+      fetch('/api/times')
+        .then(validateCode)
+        .then(async (res) => {
+          let json = await res.json();
+          commit('setTimes', json);
+          commit('stopFetching');
+        })
+        .catch((err) => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error.', 'Could not fetch times');
+          commit('setTimes', []);
+          commit('stopFetching');
+        });
+    },
     accept({ commit, dispatch }, id) {
       fetch(`/api/times/accept/${id}`, {
         method: 'post'
       })
-      .then(validateCode)
-      .then(() => {
-        Vue.$snotify.success('Time accepted.', 'Success!');
-        dispatch('fetchTimes');
-        dispatch('fetchReports');
-      })
-      .catch(err => {
-        console.error(err);
-        Vue.$snotify.error(err.response || 'Unknown error.', 'Could not accept time.');
-      });
+        .then(validateCode)
+        .then(() => {
+          Vue.$snotify.success('Time accepted.', 'Success!');
+          dispatch('fetchTimes');
+          dispatch('fetchReports');
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error.', 'Could not accept time.');
+        });
     },
     reject({ commit, dispatch }, id) {
       fetch(`/api/times/reject/${id}`, {
         method: 'post'
       })
-      .then(validateCode)
-      .then(() => {
-        Vue.$snotify.success('Time rejected.', 'Success!');
-        dispatch('fetchReports');
-        dispatch('fetchTimes');
-      })
-      .catch(err => {
-        console.error(err);
-        Vue.$snotify.error(err.response || 'Unknown error.', 'Could not reject time.');
-      });
+        .then(validateCode)
+        .then(() => {
+          Vue.$snotify.success('Time rejected.', 'Success!');
+          dispatch('fetchReports');
+          dispatch('fetchTimes');
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error.', 'Could not reject time.');
+        });
     },
-		downloadTime(_, id) {
-			axios({
-				url: `/api/times/id/${encodeURIComponent(id)}/download`,
-				method: 'GET',
-				response: 'blob'
-			})
-			.then(async (res) => {
-				var fileURL = window.URL.createObjectURL(new Blob([res.data]));
-				var fileLink = document.createElement('a');
-		   
-				fileLink.href = fileURL;
-				fileLink.setAttribute('download', 'replay.rpl');
-				document.body.appendChild(fileLink);
-		   
-				fileLink.click();
-			})
-			.catch(err => {
-				console.error(err);
-				Vue.$snotify.error(err.response.data || 'Unknown error.', 'Could not download .rpl file.');
-			});
-		},
-	},
-	getters: {
-		allTimes(state) {
-			return state.all;
-		},
-		recentTimes(state) {
-			return state.all.concat().sort(((a, b) => {
-				return a.createdAt > b.createdAt;
-			})).slice(0, 25);
-		},
-		topTimes(state) {
-			return state.all;
-		},
-		myTimes(state, getters, rootState) {
-			if (!rootState.auth.me) {
-				return null;
-			} else {
-				return state.all.filter(x => x.author == rootState.auth.me._id);
-			}
-		},
+    downloadTime(_, id) {
+      axios({
+        url: `/api/times/id/${encodeURIComponent(id)}/download`,
+        method: 'GET',
+        response: 'blob'
+      })
+        .then(async (res) => {
+          var fileURL = window.URL.createObjectURL(new Blob([res.data]));
+          var fileLink = document.createElement('a');
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', 'replay.rpl');
+          document.body.appendChild(fileLink);
+
+          fileLink.click();
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response.data || 'Unknown error.', 'Could not download .rpl file.');
+        });
+    },
+  },
+  getters: {
+    allTimes(state) {
+      return state.all;
+    },
+    recentTimes(state) {
+      return state.all.concat().sort(((a, b) => {
+        return a.createdAt > b.createdAt;
+      })).slice(0, 25);
+    },
+    topTimes(state) {
+      return state.all;
+    },
+    myTimes(state, getters, rootState) {
+      if (!rootState.auth.me) {
+        return null;
+      } else {
+        return state.all.filter(x => x.author == rootState.auth.me._id);
+      }
+    },
     timesReady(state) {
       return !!state.all;
     },
     timeFromId: (state) => (id) => {
       return state.all.filter(x => x.id === id)[0];
     },
-	}
+  }
 };

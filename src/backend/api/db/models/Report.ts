@@ -5,36 +5,36 @@ import User from './User';
 import Level from './Level';
 
 @Table({
-	timestamps: true,
+  timestamps: true,
 })
 export default class Report extends Model {
-	@ForeignKey(() => Time)
-	@Column
-	timeID: number;
+  @ForeignKey(() => Time)
+  @Column
+  timeID: number;
 
-	@BelongsTo(() => Time)
-	time: Time;
+  @BelongsTo(() => Time)
+  time: Time;
 
-	@ForeignKey(() => Level)
-	levelID: number;
+  @ForeignKey(() => Level)
+  levelID: number;
 
   @BelongsTo(() => Level)
   level: Level;
 
-	@ForeignKey(() => User)
-	@Column
-	userID: number;
+  @ForeignKey(() => User)
+  @Column
+  userID: number;
 
-	@BelongsTo(() => User)
-	user: User;
+  @BelongsTo(() => User)
+  user: User;
 
-	@Column({
-		allowNull: true
-	})
-	reason: string;
+  @Column({
+    allowNull: true
+  })
+  reason: string;
 
-	@Column
-	checked: boolean;
+  @Column
+  checked: boolean;
 
   //TODO: field to check *who* validated the time
 };

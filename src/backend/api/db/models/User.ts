@@ -4,28 +4,28 @@ import Time from './Time';
 import Report from './Report';
 
 @Table({
-	timestamps: true,
+  timestamps: true,
 })
 export default class User extends Model {
-	@Column
-	steam_id: string;
-	
-	@Column
-	name: string;
-	
-	@Column
-	avatarURL: string;
-	
-	@HasMany(() => Time)
-	times: Time[];
+  @Column
+  steam_id: string;
+
+  @Column
+  name: string;
+
+  @Column
+  avatarURL: string;
+
+  @HasMany(() => Time)
+  times: Time[];
 
   @HasMany(() => Report)
   reports: Report[];
-	
-	// 0 -> not logged in
-	// 1 -> logged in, normal user
-	// 2 -> moderator
-	// 3 -> admin
-	@Column
-	level: number;
+
+  // 0 -> not logged in
+  // 1 -> logged in, normal user
+  // 2 -> moderator
+  // 3 -> admin
+  @Column
+  level: number;
 };

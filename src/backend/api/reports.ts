@@ -10,13 +10,13 @@ const reports = express.Router();
 
 reports.post('/submit', [
   requireAuth(1),
-	body('time').isNumeric(),
-	body('reason').optional().isString(),
-	assert
+  body('time').isNumeric(),
+  body('reason').optional().isString(),
+  assert
 ], ReportController.submit);
 
 reports.get('/', [
-	requireAuth(2)
+  requireAuth(2)
 ], ReportController.all); 
 
 export default reports;

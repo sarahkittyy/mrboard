@@ -15,15 +15,15 @@ export default {
   actions: {
     fetchUsers({ commit }) {
       fetch('/api/users')
-      .then(validateCode)
-      .then(res => res.json())
-      .then(json => {
-        commit('setUsers', json);
-      })
-      .catch(err => {
-        console.error(err);
-        Vue.$snotify.error(err.response.data || 'Unknown error.', 'User fetching failed.');
-      });
+        .then(validateCode)
+        .then(res => res.json())
+        .then(json => {
+          commit('setUsers', json);
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response.data || 'Unknown error.', 'User fetching failed.');
+        });
     }
   },
   getters: {

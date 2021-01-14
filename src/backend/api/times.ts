@@ -13,18 +13,18 @@ const times = express.Router();
 times.get('/', TimeController.all);
 times.get('/me', requireAuth(0), TimeController.mine);
 times.get('/user/:user', [
-	param('user').isNumeric(),
-	assert
+  param('user').isNumeric(),
+  assert
 ], TimeController.users);
 times.get('/id/:id', [
-	param('id').isNumeric(),
-	assert
+  param('id').isNumeric(),
+  assert
 ], TimeController.get);
 times.get('/id/:id/download', TimeController.download);
 times.post('/new', [
-	requireAuth(1),
-	isReplayFile('rpl'),
-	assert
+  requireAuth(1),
+  isReplayFile('rpl'),
+  assert
 ], TimeController.new);
 
 times.post('/accept/:id', [

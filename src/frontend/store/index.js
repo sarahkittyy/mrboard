@@ -9,12 +9,12 @@ import users from './users';
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-	modules: {
-		auth,
-		times,
-		reports,
+  modules: {
+    auth,
+    times,
+    reports,
     users,
-	}
+  }
 });
 
 export default store;

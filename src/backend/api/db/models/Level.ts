@@ -4,26 +4,26 @@ import Time from './Time';
 import Report from './Report';
 
 @Table({
-	timestamps: true,
+  timestamps: true,
 })
 export default class Level extends Model {
-	@Column
-	steam_id: string;
-	
-	@Column
-	name: string;
-	
-	@Column({
-		allowNull: true,
-	})
-	campaign: string;
-	
-	@HasMany(() => Time)
-	times: Time[];
+  @Column
+  steam_id: string;
 
-	@HasMany(() => Report)
-	reports: Report[];
-	
-	@Column
-	thumbnailURL: string;
+  @Column
+  name: string;
+
+  @Column({
+    allowNull: true,
+  })
+  campaign: string;
+
+  @HasMany(() => Time)
+  times: Time[];
+
+  @HasMany(() => Report)
+  reports: Report[];
+
+  @Column
+  thumbnailURL: string;
 };

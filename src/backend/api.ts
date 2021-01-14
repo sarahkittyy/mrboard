@@ -12,7 +12,7 @@ api.use('/reports', reports);
 api.use('/users', users);
 
 api.all('**', (req, res) => {
-	return res.status(404).send(`${req.method} ${req.path} not found.`);
+  return res.status(404).send(`${req.method} ${req.path} not found.`);
 });
 
 export default api;
