@@ -17,7 +17,7 @@
           {{ time.level.name }}
         </v-card-title>
         <v-card-subtitle>
-          {{ time.duration.toFixed(2) }}<br />
+          {{ time.duration.toFixed(2) }}s by {{ time.author.name }}
         </v-card-subtitle>
         <v-card-actions>
           <v-tooltip top>
@@ -60,7 +60,8 @@
             <v-card-subtitle>
               Time: {{ time.duration.toFixed(2) }}<br />
               Set on: {{ dateString }}<br />
-              Posted: {{ uploadedString }}
+              Posted: {{ uploadedString }}<br />
+              Runner: {{ time.author.name }}
             </v-card-subtitle>
             <v-card-actions>
               <v-btn text @click="toSteamPage">
