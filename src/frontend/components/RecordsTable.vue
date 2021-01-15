@@ -28,7 +28,7 @@
 
         <template v-slot:[`item.author.name`]="{ item }">
           <v-avatar size="36" class="mr-1">
-            <v-img :src="item.author.avatarURL" />
+            <v-img :src="item.author.avatarURL" alt="Record holder's avatar" />
           </v-avatar>
           {{ item.author.name }}
         </template>

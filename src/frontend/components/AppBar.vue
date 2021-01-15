@@ -6,7 +6,7 @@
     @click="toSteamPage()"
     max-width="40"
     contain
-    alt="logo"
+    alt="Marble Race Logo"
     src="/assets/mr-logo.webp"></v-img>
   <v-toolbar-title v-if="showTitle" color="white">
     marble race community boards [beta]

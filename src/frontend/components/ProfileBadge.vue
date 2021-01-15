@@ -9,7 +9,7 @@
             </v-col>
             <v-col>
               <v-avatar>
-                <v-img :src="$store.getters.myAvatar" />
+                <v-img :src="$store.getters.myAvatar" alt="Your avatar." />
               </v-avatar>
             </v-col>
           </v-row>
@@ -31,7 +31,15 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-img v-else class="clickable ma-2" contain max-height="100%" @click="login()" src="/assets/sign-in.png" />
+    <v-img 
+      v-else
+      class="clickable ma-2"
+      contain
+      max-height="100%"
+      @click="login()"
+      src="/assets/sign-in.png"
+      alt="Steam sign-in button."
+    />
   </div>	
 </template>
 

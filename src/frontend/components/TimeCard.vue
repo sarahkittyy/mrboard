@@ -12,7 +12,10 @@
             </v-card-subtitle>
         </template>
         <template v-else>
-          <v-img :src="time.level.thumbnailURL" />
+          <v-img
+            :src="time.level.thumbnailURL"
+            alt="Thumbnail for the associated workshop level"
+          />
             <v-card-title>
               {{ time.level.name }}
             </v-card-title>
@@ -71,7 +74,10 @@
                 <v-btn icon @click.stop="toggleOverlay" @mousedown.stop @mouseover.stop>
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-img :src="time.level.thumbnailURL" />
+                <v-img
+                  :src="time.level.thumbnailURL"
+                  alt="Thumbnail for the associated workshop level"
+                />
                   <v-card-title>
                     {{ time.level.name }}
                   </v-card-title>

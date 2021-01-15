@@ -17,7 +17,7 @@
 
       <template v-slot:[`item.user.name`]="{ item }">
         <v-avatar size="36" class="mr-1">
-          <v-img :src="item.user.avatarURL" />
+          <v-img :src="item.user.avatarURL" alt="Reporter's Avatar" />
         </v-avatar>
         {{ item.user.name }}
       </template>
@@ -45,7 +45,10 @@
       <template v-slot:[`item.time`]="{ item }">
         <template v-if="$store.getters.usersReady">
           <v-avatar size="36" class="mr-1">
-            <v-img :src="$store.getters.userById(item.userID).avatarURL" />
+            <v-img
+              :src="$store.getters.userById(item.userID).avatarURL"
+              alt="Reporter's Avatar"
+            />
           </v-avatar>
           {{ item.time.duration.toFixed(2) }}s by {{ $store.getters.userById(item.userID).name }}
         </template>

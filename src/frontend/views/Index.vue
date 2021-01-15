@@ -1,10 +1,10 @@
 <template>
   <v-app style="background: rgba(0,0,0,0);">
-    <app-bar @open-drawer="drawerOpen = true" :title="title" />
-      <v-img src="/assets/bg.png" class="bg" />
-        <main-drawer v-model="drawerOpen" />
-          <router-view v-on:child-init="onChildInit"></router-view>
-          <vue-snotify />
+  <app-bar @open-drawer="drawerOpen = true" :title="title" />
+  <v-img src="/assets/bg.png" class="bg" alt="Screenshot of Marble Race gameplay background image." />
+  <main-drawer v-model="drawerOpen" />
+  <router-view v-on:child-init="onChildInit"></router-view>
+  <vue-snotify />
   </v-app>
 </template>
 
