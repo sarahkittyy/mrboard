@@ -26,7 +26,7 @@ export default {
     onChildInit(v) {
       this.title = v;
     }
-  }
+  },
 }
 </script>
 

@@ -19,6 +19,7 @@ export default {
     title: String,
   },
   created() {
+    this.$store.dispatch('refreshAuth');
     this.$store.dispatch('fetchTimes');
 
     this.$emit('child-init', this.title);

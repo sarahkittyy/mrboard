@@ -41,8 +41,9 @@ export default {
     title: String,
   },
   created() {
-    this.$store.dispatch('refreshAuth');
     this.$emit('child-init', this.title);
+
+    this.$store.dispatch('refreshAuth');
   },
   methods: {
     submit(ev) {

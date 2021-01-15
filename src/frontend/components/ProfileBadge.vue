@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-menu v-if="$store.state.auth.me" offset-y>
+    <v-menu v-if="$store.getters.myAuthLevel > 0" offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text block v-on="on" v-bind="attrs">
           <v-row align="center" justify="center">
@@ -48,9 +48,6 @@ export default {
       },
     ],
   }),
-  created() {
-    this.$store.dispatch('refreshAuth');
-  },
   methods: {
     login() {
       window.location.replace('/api/auth/login?back=' + encodeURIComponent(this.route));

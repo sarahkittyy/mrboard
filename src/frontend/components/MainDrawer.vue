@@ -126,7 +126,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('refreshAuth');
     window.addEventListener('keydown', this.keydown);
   },
   beforeDestroy() {

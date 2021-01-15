@@ -35,18 +35,14 @@ export default {
       fetch('/api/auth/me')
         .then(validateCode)
         .then(async (res) => {
-          let text = await res.text();
-          if (text != 'no') {
-            commit('setStatus', true);
-            commit('setMe', JSON.parse(text));
-            commit('authDone');
-          } else {
-            commit('setStatus', false);
-            commit('authDone');
-          }
+          let json = await res.json();
+          commit('setStatus', true);
+          commit('setMe', json);
+          commit('authDone');
         })
         .catch((err) => {
           console.error(err);
+          commit('setStatus', false);
           commit('authDone');
         });
     }

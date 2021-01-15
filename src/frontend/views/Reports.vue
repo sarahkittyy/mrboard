@@ -32,8 +32,8 @@ export default {
     document.title = 'Active Reports';
     this.$emit('child-init', this.title);
 
-    this.$store.dispatch('refreshAuth');
     this.$store.dispatch('fetchReports');
+    this.$store.dispatch('refreshAuth');
   },
   computed: {
     authorized() {

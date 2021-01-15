@@ -29,6 +29,8 @@ export default {
   mounted() {
     document.title = "MRBoard Home";
     this.$emit('child-init', this.title);
+
+    this.$store.dispatch('refreshAuth');
   },
   components: {
     TimeCardCarousel
