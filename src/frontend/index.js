@@ -17,7 +17,7 @@ Vue.use(VueRouter);
 Vue.use(Vuelidate);
 Vue.use(Snotify, {
   toast: {
-    position: SnotifyPosition.rightBottom,
+    position: SnotifyPosition.centerBottom,
     timeout: 2000,
     titleMaxLength: 25,
   },
