@@ -1,6 +1,6 @@
 <template>
   <div>
-    <records-table :times="filteredTimes" />
+    <records-table :times="filteredTimes" :level="level" />
   </div>
 </template>
 
@@ -21,6 +21,8 @@ export default {
   created() {
     this.$store.dispatch('refreshAuth');
     this.$store.dispatch('fetchTimes');
+
+    this.$store.dispatch('fetchLevel', { id: this.$route.params.id });
 
     this.$emit('child-init', this.title);
 
@@ -44,7 +46,10 @@ export default {
     ]),
     filteredTimes() {
       return this.levelTimesBest();
-    }
+    },
+    level() {
+      return this.$store.getters.level(this.$route.params.id);
+    },
   },
   components: {
     RecordsTable

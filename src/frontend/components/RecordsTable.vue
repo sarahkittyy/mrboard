@@ -94,6 +94,10 @@ export default {
   }),
   props: {
     times: Array,
+    level: Object,
+  },
+  mounted() {
+    console.log(this.level);
   },
   methods: {
     download(id) {
@@ -120,15 +124,6 @@ export default {
     cannotReport() {
       this.$snotify.warning('Time is already verified!', 'Cannot report time.')
     }
-  },
-  computed: {
-    level() {
-      if (this.times.length === 0) {
-        return null;
-      } else {
-        return this.times[0].level;
-      }
-    },
   },
   components: {
     ReportOverlay,
