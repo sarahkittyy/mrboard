@@ -4,6 +4,8 @@
       <v-data-table
         :items="times"
         :headers="headers"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
         class="my-2"
         >
         <template v-slot:top>
@@ -57,7 +59,7 @@
           <v-btn v-else-if="!item.verified && authorized" icon @click="promptReason(item.id)">
             <v-icon>mdi-alert</v-icon>
           </v-btn>
-          <v-tooltip top v-else>
+          <v-tooltip v-else top>
             <template v-slot:activator="{ on }">
               <div v-on="on">
                 <v-btn icon 
@@ -88,6 +90,8 @@ import ReportOverlay from './ReportOverlay';
 export default {
   name: 'RecordsTable',
   data: () => ({
+    sortBy: 'duration',
+    sortDesc: false,
     headers: [
       {
         text: 'Runner',
