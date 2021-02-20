@@ -51,12 +51,25 @@
         </template>
 
         <template v-slot:[`item.report`]="{ item }">
-          <v-btn v-if="!item.verified" icon @click="promptReason(item.id)">
+          <v-btn v-if="item.verified" icon @click="cannotReport">
             <v-icon>mdi-alert</v-icon>
           </v-btn>
-          <v-btn v-else icon @click="cannotReport">
+          <v-btn v-else-if="!item.verified && authorized" icon @click="promptReason(item.id)">
             <v-icon>mdi-alert</v-icon>
           </v-btn>
+          <v-tooltip top v-else>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-btn icon 
+                  v-on="on"
+                  disabled
+                >
+                  <v-icon>mdi-alert</v-icon>
+                </v-btn>
+              </div>
+            </template>
+            <span>login to report times</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </template>
@@ -96,9 +109,6 @@ export default {
     times: Array,
     level: Object,
   },
-  mounted() {
-    console.log(this.level);
-  },
   methods: {
     download(id) {
       this.$store.dispatch('downloadTime', id);
@@ -124,6 +134,13 @@ export default {
     cannotReport() {
       this.$snotify.warning('Time is already verified!', 'Cannot report time.')
     }
+  },
+  computed: {
+    authorized() {
+      let rdy = this.$store.getters.authReady;
+      let status = this.$store.getters.myAuthLevel;
+      return rdy && (status > 0);
+    },
   },
   components: {
     ReportOverlay,
