@@ -109,7 +109,7 @@ export default {
       axios({
         url: `/api/times/id/${encodeURIComponent(id)}/download`,
         method: 'GET',
-        response: 'blob'
+        responseType: 'arraybuffer',
       })
         .then(async (res) => {
           var fileURL = window.URL.createObjectURL(new Blob([res.data]));
