@@ -10,7 +10,6 @@ export default {
   mutations: {
     setLevel(state, { id, obj }) {
       state.levels = {...state.levels, [id]: {...obj}};
-      console.log(state.levels);
     }
   },
   actions: {

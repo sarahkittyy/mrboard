@@ -4,6 +4,15 @@
       <v-sheet elevation="5" width="50%" class="text-center pa-13">
         <template v-if="authorized">
           <span class="text-h6">Submit</span>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-icon class="ml-4 mb-1" v-on="on">mdi-folder</v-icon>
+            </template>
+            <span>
+              Replays are located at: 
+              <pre>%userprofile%/AppData/LocalLow/Elastic Sea/Marble Race/Replays</pre>
+            </span>
+          </v-tooltip>
           <v-form ref="form" @submit="submit">
             <v-file-input v-model="file" show-size :rules="rules" label="Any replay .rpl file" />
               <v-btn type="submit" :disabled="file == null || !formValid">Submit</v-btn>
