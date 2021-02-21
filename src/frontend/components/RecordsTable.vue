@@ -53,39 +53,17 @@
         </template>
 
         <template v-slot:[`item.report`]="{ item }">
-          <v-btn v-if="item.verified" icon @click="cannotReport">
-            <v-icon>mdi-alert</v-icon>
-          </v-btn>
-          <v-btn v-else-if="!item.verified && authorized" icon @click="promptReason(item.id)">
-            <v-icon>mdi-alert</v-icon>
-          </v-btn>
-          <v-tooltip v-else top>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn icon 
-                  v-on="on"
-                  disabled
-                >
-                  <v-icon>mdi-alert</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>login to report times</span>
-          </v-tooltip>
+          <small-report-button
+            :time=item
+          />
         </template>
       </v-data-table>
     </template>
-    <report-overlay 
-      :visible="reportOverlay" 
-      v-model="reportReason" 
-      @close="closeOverlay" 
-      @report="report(reportOverlayTimeID)"
-      />
   </div>
 </template>
 
 <script>
-import ReportOverlay from './ReportOverlay';
+import SmallReportButton from '~/SmallReportButton';
 
 export default {
   name: 'RecordsTable',
@@ -120,24 +98,6 @@ export default {
     toLevelSteamPage() {
       window.open(`https://steamcommunity.com/sharedfiles/filedetails/?id=${encodeURIComponent(this.level.steam_id)}`, '_blank');
     },
-    report(time) {
-      this.$store.dispatch('report', { time, reason: this.reportReason });
-      this.reportOverlay = false;
-      this.reportOverlayTimeID = null;
-      this.reportReason = "";
-    },
-    promptReason(time_id) {
-      this.reportOverlay = true;
-      this.reportOverlayTimeID = time_id;
-    },
-    closeOverlay() {
-      this.reportOverlay = false;
-      this.reportOverlayTimeID = null;
-      this.reportReason = ""
-    },
-    cannotReport() {
-      this.$snotify.warning('Time is already verified!', 'Cannot report time.')
-    }
   },
   computed: {
     authorized() {
@@ -147,7 +107,7 @@ export default {
     },
   },
   components: {
-    ReportOverlay,
+    SmallReportButton,
   },
 };
 </script>
