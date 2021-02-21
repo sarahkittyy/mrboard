@@ -1,6 +1,7 @@
 <template>
   <div>
-    <records-table :times="filteredTimes" :level="level" />
+    <records-table v-if="level && level.times" :level="level" />
+    <v-progress-circular v-else indeterminate class="absolute-center"/>
   </div>
 </template>
 
@@ -20,9 +21,8 @@ export default {
   },
   created() {
     this.$store.dispatch('refreshAuth');
-    this.$store.dispatch('fetchTimes');
-
     this.$store.dispatch('fetchLevel', { id: this.$route.params.id });
+    this.$store.dispatch('fetchTimesOfLevel', { id: this.$route.params.id });
 
     this.$emit('child-init', this.title);
 
@@ -30,33 +30,32 @@ export default {
       this.$router.push('/404');
     }
   },
-  methods: {
-    levelTimesBest(duration) {
-      let levelTimes = this.allTimes.filter(v => v.level.id === parseInt(this.$route.params.id));
-      levelTimes.sort((a, b) => a.duration < b.duration);
-      return levelTimes;
-    },
-    levelTimesRecent(duration) {
-
-    },
-  },
   computed: {
     ...mapGetters([
       'allTimes',
     ]),
     filteredTimes() {
-      return this.levelTimesBest();
+      return this.level;
     },
     level() {
       return this.$store.getters.level(this.$route.params.id);
     },
   },
   components: {
-    RecordsTable
-  }
+    RecordsTable,
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+
+@use '~@/common';
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 </style>

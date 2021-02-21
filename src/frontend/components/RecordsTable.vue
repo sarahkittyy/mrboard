@@ -15,16 +15,16 @@
               <span v-if="level.campaign">-- {{ level.campaign }}</span> 
             </v-toolbar-title>
             <v-spacer />
-              <v-toolbar-items>
-                <v-btn text @click="toLevelSteamPage">
-                  <v-icon class="mr-2">mdi-steam</v-icon>
-                  to steam page
-                </v-btn>
-                <v-btn text @click="$router.push('/times/submit')">
-                  <v-icon class="mr-2">mdi-cloud-upload</v-icon>
-                  submit replay
-                </v-btn>
-              </v-toolbar-items>
+            <v-toolbar-items>
+              <v-btn text @click="toLevelSteamPage">
+                <v-icon class="mr-2">mdi-steam</v-icon>
+                to steam page
+              </v-btn>
+              <v-btn text @click="$router.push('/times/submit')">
+                <v-icon class="mr-2">mdi-cloud-upload</v-icon>
+                submit replay
+              </v-btn>
+            </v-toolbar-items>
           </v-toolbar>
         </template>
 
@@ -83,12 +83,8 @@ export default {
       { text: 'Download', value: 'download', sortable: false },
       { text: 'Report', value: 'report', sortable: false },
     ],
-    reportOverlay: false,
-    reportOverlayTimeID: null,
-    reportReason: "",
   }),
   props: {
-    times: Array,
     level: Object,
   },
   methods: {
@@ -104,6 +100,10 @@ export default {
       let rdy = this.$store.getters.authReady;
       let status = this.$store.getters.myAuthLevel;
       return rdy && (status > 0);
+    },
+    times() {
+      console.log(this.level.times);
+      return this.level.times;
     },
   },
   components: {
