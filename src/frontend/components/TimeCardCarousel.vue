@@ -20,7 +20,7 @@
       <v-row align="center" justify="center" class="tc-row">
         <v-col 
           v-for="(time, i) in paginationTimes"
-          :key="'valid' + i + pagination"
+          :key="'valid' + i + ((pagination - 1) * visibleCt)"
           cols="auto"
         >
           <time-card
