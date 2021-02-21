@@ -45,7 +45,17 @@
         </template>
 
         <template v-slot:[`item.verified`]="{ item }">
-          <v-simple-checkbox readonly :value="item.verified" disabled />
+          <v-simple-checkbox
+            v-if="moderator"
+            :value="item.verified"
+            @input="toggleValidate(item)"
+          />
+          <v-simple-checkbox
+            v-else
+            :value="item.verified"
+            disabled
+            readonly
+          />
         </template>
 
         <template v-slot:[`item.download`]="{ item }">
@@ -54,8 +64,41 @@
 
         <template v-slot:[`item.report`]="{ item }">
           <small-report-button
-            :time=item
+            :time="item"
           />
+          <v-dialog max-width="450" v-if="moderator">
+            <template v-slot:activator="{ on: dialog }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on: tooltip }">
+                  <v-btn color="red" v-on="{...dialog, ...tooltip}" icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </template>
+                <span>remove time</span>
+              </v-tooltip>
+            </template>
+            <template v-slot:default="dialog">
+              <v-card>
+                <v-card-title>
+                  Remove this time permanently?
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn color="red" @click="reject(item); dialog.value = false;">
+                    <v-icon>mdi-delete</v-icon>
+                    delete
+                  </v-btn>
+                  <v-btn color="green" @click="dialog.value = false;">
+                    <v-icon>mdi-check</v-icon>
+                    keep
+                  </v-btn>
+                  <v-btn @click="dialog.value = false">
+                    <v-icon>mdi-close</v-icon>
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
         </template>
       </v-data-table>
     </template>
@@ -64,6 +107,8 @@
 
 <script>
 import SmallReportButton from '~/SmallReportButton';
+
+import escape from '../mixins/escape';
 
 export default {
   name: 'RecordsTable',
@@ -87,12 +132,26 @@ export default {
   props: {
     level: Object,
   },
+  mixins: [escape],
   methods: {
     download(id) {
       this.$store.dispatch('downloadTime', id);
     },
+    escape() {
+      
+    },
     toLevelSteamPage() {
       window.open(`https://steamcommunity.com/sharedfiles/filedetails/?id=${encodeURIComponent(this.level.steam_id)}`, '_blank');
+    },
+    toggleValidate(time) {
+      if (time.verified) {
+        this.$store.dispatch('unaccept', time.id);
+      } else {
+        this.$store.dispatch('accept', time.id);
+      }
+    },
+    reject(time) {
+      this.$store.dispatch('reject', time.id);
     },
   },
   computed: {
@@ -102,7 +161,17 @@ export default {
       return rdy && (status > 0);
     },
     times() {
-      return this.level.times;
+      return this.$store.getters.timesOfLevel(this.level.id);
+    },
+    moderator() {
+      let rdy = this.$store.getters.authReady;
+      let status = this.$store.getters.myAuthLevel;
+      return rdy && (status >= 2);
+    },
+    admin() {
+      let rdy = this.$store.getters.authReady;
+      let status = this.$store.getters.myAuthLevel;
+      return rdy && (status >= 3);
     },
   },
   components: {

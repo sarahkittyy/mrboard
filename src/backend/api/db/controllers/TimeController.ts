@@ -100,6 +100,24 @@ export class TimeController {
   }
 
   /**
+   * unaccept this time as valid
+   * param('id') - isNumeric - the id of the time to validate
+   */
+  public static unaccept = async (req: Request, res: Response) => {
+    let time = await Time.findOne({ where: { id: req.params.id } });
+    if (!time) {
+      return res.status(404).send(`Could not find time ${req.params.id}.`);
+    }
+
+    // set the time as unverified
+    time.verified = false;
+
+    time.save();
+
+    return res.send('Success!');
+  }
+
+  /**
    * reject this time as valid
    * param('id') - isNumeric - the id of the time to invalidate
    */

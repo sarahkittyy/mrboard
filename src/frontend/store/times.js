@@ -90,6 +90,21 @@ export default {
           Vue.$snotify.error(err.response || 'Unknown error.', 'Could not accept time.');
         });
     },
+    unaccept({ commit, dispatch }, id) {
+      fetch(`/api/times/unaccept/${id}`, {
+        method: 'post'
+      })
+        .then(validateCode)
+        .then(() => {
+          Vue.$snotify.success('Time unaccepted.', 'Success!');
+          dispatch('fetchTimes');
+          dispatch('fetchReports');
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error.', 'Could not unaccept time.');
+        });
+    },
     reject({ commit, dispatch }, id) {
       fetch(`/api/times/reject/${id}`, {
         method: 'post'
@@ -131,6 +146,9 @@ export default {
     allTimes(state) {
       return state.all;
     },
+    timesOfLevel: (state) => (id) => {
+      return state.all.filter(t => t.levelID === id);
+    },
     recentTimes(state) {
       let ids = [];
       let times = state.all.concat().sort(((a, b) => {
@@ -147,9 +165,6 @@ export default {
           }
         });
       return times;
-    },
-    topTimes(state) {
-      return state.all;
     },
     myTimes(state, getters, rootState) {
       if (!rootState.auth.me) {

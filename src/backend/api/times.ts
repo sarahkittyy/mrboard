@@ -33,6 +33,12 @@ times.post('/accept/:id', [
   assert
 ], TimeController.accept);
 
+times.post('/unaccept/:id', [
+  requireAuth(2),
+  param('id').isNumeric(),
+  assert
+], TimeController.unaccept);
+
 times.post('/reject/:id', [
   requireAuth(2),
   param('id').isNumeric(),

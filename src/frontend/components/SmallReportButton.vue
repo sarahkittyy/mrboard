@@ -1,39 +1,51 @@
 <template>
-<div>
-  <v-tooltip top v-if="time.verified">
-    <template v-slot:activator="{ on }">
-      <v-icon v-on="on">mdi-check</v-icon>
-    </template>
-    <span>time verified!</span>
-  </v-tooltip>
-  <v-tooltip top v-else-if="!time.verified && authorized">
-    <template v-slot:activator="{ on }">
-      <v-btn v-on="on" icon @click="promptReason(time.id)">
-        <v-icon>mdi-alert</v-icon>
-      </v-btn>
-    </template>
-    <span>report level time</span>
-  </v-tooltip>
-  <v-tooltip v-else top>
-    <template v-slot:activator="{ on }">
-      <div v-on="on">
-        <v-btn icon 
-           v-on="on"
-           disabled
-           >
-           <v-icon>mdi-alert</v-icon>
+<span>
+  <span v-show="time.verified">
+    <v-tooltip top>
+      <template v-slot:activator="{ on }">
+        <v-icon v-on="on">mdi-check</v-icon>
+      </template>
+      <span>time verified!</span>
+    </v-tooltip>
+  </span>
+  <span v-show="!time.verified && authorized">
+    <v-tooltip top>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          @mousedown.stop
+          @mouseover.stop
+          v-on="on"
+          icon
+          @click.stop="promptReason(time.id)"
+        >
+          <v-icon>mdi-alert</v-icon>
         </v-btn>
-      </div>
-    </template>
-    <span>login to report times</span>
-  </v-tooltip>
+      </template>
+      <span>report level time</span>
+    </v-tooltip>
+  </span>
+  <span v-show="!time.verified && !authorized">
+    <v-tooltip top>
+      <template v-slot:activator="{ on }">
+        <div v-on="on" class="d-inline-block">
+          <v-btn
+            icon 
+            disabled
+          >
+            <v-icon>mdi-alert</v-icon>
+          </v-btn>
+        </div>
+      </template>
+      <span>login to report times</span>
+    </v-tooltip>
+  </span>
   <report-overlay
     :visible="overlay"
     v-model="reason"
     @close="closeOverlay"
     @report="report()"
   />
-</div>
+</span>
 </template>
 <script>
 import ReportOverlay from './ReportOverlay';
@@ -79,9 +91,15 @@ export default {
   },
   components: {
     ReportOverlay,
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
+
+@use '~@/common';
+
+.invisible {
+  display: none;
+}
 
 </style>

@@ -30,20 +30,6 @@ export default {
           Vue.$snotify.error(err.response || 'Unknown error', 'Could not fetch level.');
         });
     },
-    fetchTimesOfLevel({ commit }, { id }) {
-      fetch(`/api/levels/${id}/times`, {
-        method: 'get',
-      })
-        .then(validateCode)
-        .then(res => res.json())
-        .then((json) => {
-          commit('updateTimes', { id, times: json });
-        })
-        .catch((err) => {
-          console.error(err);
-          Vue.$snotify.error(err.response || 'Unknown error', 'Could not fetch level times.');
-        });
-    },
   },
   getters: {
     level: (state) => (id) => {

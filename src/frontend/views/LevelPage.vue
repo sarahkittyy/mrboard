@@ -1,6 +1,6 @@
 <template>
   <div>
-    <records-table v-if="level && level.times" :level="level" />
+    <records-table v-if="level" :level="level" />
     <v-progress-circular v-else indeterminate class="absolute-center"/>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default {
   created() {
     this.$store.dispatch('refreshAuth');
     this.$store.dispatch('fetchLevel', { id: this.$route.params.id });
-    this.$store.dispatch('fetchTimesOfLevel', { id: this.$route.params.id });
+    this.$store.dispatch('fetchTimes');
 
     this.$emit('child-init', this.title);
 
