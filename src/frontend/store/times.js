@@ -132,9 +132,21 @@ export default {
       return state.all;
     },
     recentTimes(state) {
-      return state.all.concat().sort(((a, b) => {
-        return a.createdAt > b.createdAt;
-      })).slice(0, 25);
+      let ids = [];
+      let times = state.all.concat().sort(((a, b) => {
+        return Date.parse(a.createdAt) - Date.parse(b.createdAt);
+      }))
+        .slice(0, 25)
+        .reverse() // now in order from first - last
+        .filter(v => {
+          if (ids.indexOf(v.level.id) == -1) {
+            ids.push(v.level.id);
+            return true;
+          } else {
+            return false;
+          }
+        });
+      return times;
     },
     topTimes(state) {
       return state.all;
