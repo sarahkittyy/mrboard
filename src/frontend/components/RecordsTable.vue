@@ -102,7 +102,6 @@ export default {
       return rdy && (status > 0);
     },
     times() {
-      console.log(this.level.times);
       return this.level.times;
     },
   },
