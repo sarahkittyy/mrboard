@@ -46,8 +46,8 @@
         <template v-if="$store.getters.usersReady">
           <v-avatar size="36" class="mr-1">
             <v-img
-              :src="$store.getters.userById(item.userID).avatarURL"
-              alt="Reporter's Avatar"
+              :src="$store.getters.userById(item.time.authorID).avatarURL"
+              alt="Runner's Avatar"
             />
           </v-avatar>
           {{ item.time.duration.toFixed(2) }}s by {{ $store.getters.userById(item.userID).name }}
