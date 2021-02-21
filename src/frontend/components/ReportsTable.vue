@@ -50,7 +50,8 @@
               alt="Runner's Avatar"
             />
           </v-avatar>
-          {{ item.time.duration.toFixed(2) }}s by {{ $store.getters.userById(item.userID).name }}
+          {{ item.time.duration.toFixed(2) }}s
+          by {{ $store.getters.userById(item.time.authorID).name }}
         </template>
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
