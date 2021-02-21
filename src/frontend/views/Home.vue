@@ -8,6 +8,7 @@
       </v-row>
     </v-banner>
     <time-card-carousel :times="$store.getters.recentTimes" />
+
     <v-tooltip top>
       <template v-slot:activator="{ on }">
         <v-fab-transition>

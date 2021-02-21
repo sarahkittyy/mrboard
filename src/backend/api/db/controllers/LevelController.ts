@@ -44,7 +44,7 @@ export class LevelController {
       order: [
         ['duration', 'ASC'],
       ],
-      limit: parseInt(req.params.n || '3'),
+      limit: parseInt(<string>req.query.n || '3'),
       include: [],
     });
 
