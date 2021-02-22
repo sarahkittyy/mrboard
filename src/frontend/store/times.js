@@ -40,18 +40,20 @@ export default {
     },
   },
   actions: {
-    submitTime({ commit, dispatch }, form) {
+    submitTime({ commit, dispatch }, { form, callback }) {
       commit('startUploading');
 
       axios.post('/api/times/new', form, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
+        responseType: 'json',
       })
         .then(res => {
-          Vue.$snotify.success('Redirecting you home...', 'Replay upload successful!');
+          Vue.$snotify.success('Redirecting you...', 'Replay upload successful!');
           commit('uploadSuccess');
           dispatch('fetchTimes');
+          setTimeout(() => callback(res.data.redirect), 1000);
         })
         .catch(err => {
           console.error(err);

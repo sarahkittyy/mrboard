@@ -197,6 +197,6 @@ export class TimeController {
     rpl.mv(filename);
 
     // respond successful
-    return res.send('Success');
+    return res.send({ response: 'Success!', redirect: `/levels/${time.levelID}`});
   }
 };

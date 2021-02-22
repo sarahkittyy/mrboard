@@ -27,6 +27,11 @@ export default {
       this.title = v;
     }
   },
+  watch: {
+    $route(to, from) {
+      this.$snotify.clear();
+    }
+  }
 }
 </script>
 

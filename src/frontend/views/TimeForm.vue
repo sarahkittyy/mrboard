@@ -73,27 +73,17 @@ export default {
       ev.preventDefault();
       var form = new FormData();
       form.append('rpl', this.file);
-      this.$store.dispatch('submitTime', form);
-    }
+      this.$store.dispatch('submitTime', {
+        form,
+        callback: (r) => this.$router.push(r),
+      });
+    },
   },
   watch: {
     file() {
       this.formValid = this.$refs.form.validate();
     },
-    doneUploading(v) {
-      if (v) {
-        setTimeout(() => {
-          this.$snotify.clear();
-          this.$router.push('/');
-        }, 1000);
-      }
-    }
   },
-  computed: {
-    doneUploading() {
-      return !this.$store.state.times.uploading && this.$store.state.times.uploadStatus;	
-    }
-  }
 };
 </script>
 
