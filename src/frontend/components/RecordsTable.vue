@@ -87,10 +87,6 @@
                     <v-icon>mdi-delete</v-icon>
                     delete
                   </v-btn>
-                  <v-btn color="green" @click="dialog.value = false;">
-                    <v-icon>mdi-check</v-icon>
-                    keep
-                  </v-btn>
                   <v-btn @click="dialog.value = false">
                     <v-icon>mdi-close</v-icon>
                     Close
