@@ -15,8 +15,12 @@ reports.post('/submit', [
   assert
 ], ReportController.submit);
 
+reports.get('/any', [
+  requireAuth(2),
+], ReportController.any);
+
 reports.get('/', [
-  requireAuth(2)
+  requireAuth(2),
 ], ReportController.all); 
 
 export default reports;

@@ -10,7 +10,7 @@ export default {
   mutations: {
     setReports(state, reports) {
       state.reports = [...reports];
-    }
+    },
   },
   actions: {
     report({ commit }, { time, reason }) {
@@ -56,5 +56,9 @@ export default {
       if (state.reports == null) return [];
       return state.reports.filter(r => !r.checked);
     },
+    reportCount(state) {
+      if (state.reports == null) return 0;
+      return state.reports.length;
+    }
   }
 };

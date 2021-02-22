@@ -68,8 +68,11 @@
 </template>
 
 <script>
+import escape from '../mixins/escape';
+
 export default {
   name: 'MainDrawer',
+  mixins: [escape],
   data: () => ({
     menuItems: [
       {
@@ -90,7 +93,7 @@ export default {
         name: 'Reports',
         icon: 'mdi-alert',
         fn: 'goTo',
-        arg: '/reports'
+        arg: '/reports',
       }
     ],
     menuItemsAdmin: [
@@ -109,11 +112,9 @@ export default {
     goTo(loc) {
       this.$router.push(loc);
     },
-    keydown(ev) {
-      if (ev.key === 'Escape') {
-        this.open = false;
-      }
-    }
+    escape() {
+      this.open = false;
+    },
   },
   computed: {
     open: {
@@ -123,14 +124,8 @@ export default {
       set(v) {
         this.$emit('input', v);
       }
-    }
+    },
   },
-  mounted() {
-    window.addEventListener('keydown', this.keydown);
-  },
-  beforeDestroy() {
-    window.removeEventListener('keydown', this.keydown);
-  }
 };
 </script>
 
