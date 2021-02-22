@@ -119,10 +119,10 @@ export default {
   },
   computed: {
     dateString() {
-      return new Date(this.time.timestamp).toLocaleDateString();
+      return `${new Date(this.time.timestamp).toLocaleDateString()} ${new Date(this.time.timestamp).toLocaleTimeString()}`;
     },
     uploadedString() {
-      return new Date(this.time.createdAt).toLocaleDateString();
+      return `${new Date(this.time.createdAt).toLocaleDateString()} ${new Date(this.time.createdAt).toLocaleTimeString()}`;
     },
   },
   components: {
