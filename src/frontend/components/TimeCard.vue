@@ -15,6 +15,7 @@
           <v-img
             :src="time.level.thumbnailURL"
             alt="Thumbnail for the associated workshop level"
+            max-height="169px"
           />
           <v-card-title>
             {{ time.level.name }}
