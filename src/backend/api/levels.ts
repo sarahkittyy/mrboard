@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import { param, query } from 'express-validator';
 
 import assert from './middleware/assert';
@@ -6,35 +6,44 @@ import requireAuth from './middleware/requireAuth';
 
 import { LevelController } from './db/controllers/LevelController';
 
+const actions = express.Router();
 const levels = express.Router();
 
 levels.get('/', LevelController.all);
 
-levels.get('/steam/:id', [
-  param('id').isNumeric(),
-  assert
-], LevelController.steam);
+actions.get('/', [
+], LevelController.get);
 
-levels.delete('/:id', [
+actions.delete('/', [
   requireAuth(3),
-  param('id').isNumeric(),
-  assert,
 ], LevelController.del);
 
-levels.get('/:id/times', [
-  param('id').isNumeric(),
+actions.get('/times', [
   assert
 ], LevelController.times);
 
-levels.get('/:id/top', [
-  param('id').isNumeric(),
+actions.get('/top', [
   query('n').isInt({ gt: 0 }).optional(),
   assert
 ], LevelController.top);
 
-levels.get('/:id', [
+//-----//
+
+levels.use('/steam/:id', [
   param('id').isNumeric(),
-  assert
-], LevelController.get);
+  assert,
+  LevelController.steam,
+  actions,
+]);
+
+levels.use('/:id', [
+  param('id').isNumeric(),
+  assert,
+  (req: Request, res: Response, next: NextFunction) => {
+    res.locals.id = req.params.id; 
+    next();
+  },
+  actions,
+]);
 
 export default levels;

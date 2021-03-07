@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 
 import Level from '../models/Level';
 import Time from '../models/Time';
@@ -10,27 +10,29 @@ export class LevelController {
    * param('id') - isNumeric - the id of the level to grab
    */
   public static get = async (req: Request, res: Response) => {
-    let level = await Level.findOne({ where: { id: req.params.id } });
+    let level = await Level.findOne({ where: { id: res.locals.id } });
 
     if (!level) {
-      return res.status(404).send(`Could not find level ${req.params.id}`);
+      return res.status(404).send(`Could not find level ${res.locals.id}`);
     }
 
     return res.send(level);
   }
 
   /**
-   * get a level by it's steam id
+   * middleware to convert normal ids to steam ids
    * param('id') - isNumeric - the id of the level to grab
    */
-  public static steam = async (req: Request, res: Response) => {
+  public static steam = async (req: Request, res: Response, next: NextFunction) => {
     let level = await Level.findOne({ where: { steam_id: req.params.id } });
 
     if (!level) {
       return res.status(404).send(`Could not find level /steam/${req.params.id}`);
     }
 
-    return res.send(level);
+    res.locals.id = level.id;
+
+    return next();
   }
 
   /**
@@ -53,10 +55,10 @@ export class LevelController {
    * param('id') - isNumeric - the id of the level to get times from
    */
   public static times = async (req: Request, res: Response) => {
-    let times = await Time.findAll({ where: { levelID: req.params.id }, include: [User] });
+    let times = await Time.findAll({ where: { levelID: res.locals.id }, include: [User] });
 
     if (!times) {
-      return res.status(404).send(`Could not find times with level id ${req.params.id}`);
+      return res.status(404).send(`Could not find times with level id ${res.locals.id}`);
     }
 
     return res.send(times);
@@ -69,7 +71,7 @@ export class LevelController {
    */
   public static top = async (req: Request, res: Response) => {
     let times = await Time.findAll({
-      where: { levelID: req.params.id },
+      where: { levelID: res.locals.id },
       order: [
         ['duration', 'ASC'],
       ],
@@ -78,7 +80,7 @@ export class LevelController {
     });
 
     if (!times) {
-      return res.status(404).send(`Could not find times with level id ${req.params.id}`);
+      return res.status(404).send(`Could not find times with level id ${res.locals.id}`);
     }
 
     return res.send(times);
@@ -90,7 +92,7 @@ export class LevelController {
    */
   public static del = async (req: Request, res: Response) => {
     await Level.destroy({
-      where: { id: req.params.id },
+      where: { id: res.locals.id },
     });
     return res.send('Level deleted!');
   }
