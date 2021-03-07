@@ -13,16 +13,21 @@
         <v-toolbar color="primary">
           <v-toolbar-title>Levels</v-toolbar-title>
           <v-spacer />
-          <!--TODO add search bar-->
           <v-toolbar-items>
-            <v-text-field
-              solo dense clearable single-line
-              prepend-inner-icon="mdi-magnify"
-              color="black"
-              v-model="search"
-              label="Search"
-              class="mx-4 d-flex align-center"
-            />
+            <v-row>
+              <v-col>
+                <v-text-field
+                  solo dense clearable single-line
+                  prepend-inner-icon="mdi-magnify"
+                  color="black"
+                  v-model="search"
+                  label="Search"
+                  class="mx-4 d-flex align-center"
+                  clear-icon="mdi-close"
+                  height="10px"
+                />
+              </v-col>
+            </v-row>
           </v-toolbar-items>
         </v-toolbar>
       </template>
@@ -168,5 +173,9 @@ export default {
 <style lang="scss" scoped>
 
 @use '~@/common';
+
+.search-fix {
+  height: 10px;
+}
 
 </style>
