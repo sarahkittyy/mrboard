@@ -4,10 +4,11 @@
       :search="search"
       class="my-2"
       v-if="levels != null"
-      :items="levels"
+      :items="levelsFiltered"
       :headers="headers"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
+      :custom-filter="filter"
     >
       <template v-slot:top>
         <v-toolbar color="primary">
@@ -49,7 +50,7 @@
         {{ item.campaign }}
       </template>
 
-      <template v-slot:[`item.times`]=" { item }">
+      <template v-slot:[`item.wr`]=" { item }">
         <template v-if="typeof wr(item) !== 'object'">
           {{ wr(item) }}
         </template>
@@ -57,7 +58,7 @@
           <v-avatar size="36" class="mr-1">
             <v-img :src="wr(item).author.avatarURL" alt="Record holder's avatar" />
           </v-avatar>
-          {{ wr(item).duration }} by {{ wr(item).author.name }}
+          {{ item.wr }} by {{ wr(item).author.name }}
         </template>
       </template>
 
@@ -120,18 +121,21 @@ import escape from '../mixins/escape';
 
 export default {
   name: 'LevelBrowser',
-  data: () => ({
-    sortBy: '',
-    sortDesc: true,
-    search: '',
-    headers: [
-      { text: 'Name', value: 'name' },
-      { text: 'Campaign', value: 'campaign' },
-      { text: 'Record', value: 'times' },
-      { text: 'Steam', value: 'steam_id' },
-      { text: 'Actions', value: 'times_page' },
-    ],
-  }),
+  data() {
+    let self = this;
+    return {
+      sortBy: 'record',
+      sortDesc: false,
+      search: '',
+      headers: [
+        { text: 'Name', value: 'name' },
+        { text: 'Campaign', value: 'campaign' },
+        { text: 'Record', value: 'wr' },
+        { text: 'Steam', value: 'steam_id', sortable: false, filterable: false },
+        { text: 'Actions', value: 'times_page', sortable: false, filterable: false },
+      ],
+    };
+  },
   props: {
     levels: Array,
   },
@@ -160,12 +164,32 @@ export default {
     toLevelPage(level) {
       this.$router.push(`/levels/${level.id}`);
     },
+    filter(value, search, item) {
+      let res = (value != null && search != null) &&
+        (item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.campaign.toLowerCase().includes(search.toLowerCase()) ||
+        (typeof this.wr(item) === 'object' ? 
+          this.wr(item).author.name.toLowerCase().includes(search.toLowerCase()) :
+          false
+        ));
+      return res;
+    }
   },
   computed: {
     admin() {
       let rdy = this.$store.getters.authReady;
       let status = this.$store.getters.myAuthLevel;
       return rdy && (status >= 3);
+    },
+    levelsFiltered() {
+      return this.levels.map(v => { 
+        if (typeof this.wr(v) === 'object') {
+          v.wr = this.wr(v).duration;
+        } else{
+          v.wr = 9999999999999;
+        }
+        return v;
+      });
     },
   },
 };
