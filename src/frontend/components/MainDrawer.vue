@@ -1,7 +1,8 @@
 <template>
   <v-navigation-drawer
     v-model="open"
-    absolute
+    fixed
+    app
     temporary
     @keydown.esc="this.open = false"
     >

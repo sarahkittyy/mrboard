@@ -170,10 +170,3 @@ export default {
 @use '~@/common';
 
 </style>
-<style lang="scss">
-
-.v-input__control {
-  height: 0 !important;
-}
-
-</style>

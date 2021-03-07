@@ -1,5 +1,5 @@
 <template>
-<v-app-bar app fixed color="primary">
+<v-app-bar app color="primary">
   <v-app-bar-nav-icon @click="$emit('open-drawer')"></v-app-bar-nav-icon>
   <v-img 
     class="clickable mr-4"
