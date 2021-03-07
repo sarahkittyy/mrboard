@@ -89,7 +89,7 @@
                   </v-btn>
                   <v-btn @click="dialog.value = false">
                     <v-icon>mdi-close</v-icon>
-                    Close
+                    close
                   </v-btn>
                 </v-card-actions>
               </v-card>

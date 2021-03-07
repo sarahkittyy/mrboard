@@ -56,17 +56,6 @@
         </template>
       </template>
 
-      <template v-slot:[`item.times_page`]="{ item }">
-        <v-tooltip top>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="toLevelPage(item)">
-              <v-icon>mdi-exit-to-app</v-icon>
-            </v-btn>
-          </template>
-          <span>view all scores</span>
-        </v-tooltip>
-      </template>
-
       <template v-slot:[`item.steam_id`]="{ item }">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -76,6 +65,46 @@
           </template>
           <span>to steam page</span>
         </v-tooltip>
+      </template>
+
+      <template v-slot:[`item.times_page`]="{ item }">
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon @click="toLevelPage(item)">
+              <v-icon>mdi-exit-to-app</v-icon>
+            </v-btn>
+          </template>
+          <span>view all scores</span>
+        </v-tooltip>
+        <v-dialog max-width="600" v-if="admin">
+          <template v-slot:activator="{ on: dialog }">
+            <v-tooltip top>
+              <template v-slot:activator="{ on: tooltip }">
+                <v-btn color="red" v-on="{...dialog, ...tooltip}" icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <span>remove level</span>
+            </v-tooltip>
+          </template>
+          <template v-slot:default="dialog">
+            <v-card>
+              <v-card-title>
+                Remove this level, and all times, permanently?
+              </v-card-title>
+              <v-card-actions>
+                <v-btn color="red" @click="deleteLevel(item); dialog.value = false;">
+                  <v-icon>mdi-delete</v-icon>
+                  delete
+                </v-btn>
+                <v-btn @click="dialog.value = false;">
+                  <v-icon>mdi-close</v-icon>
+                  close
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
       </template>
 
     </v-data-table>
@@ -94,8 +123,8 @@ export default {
       { text: 'Name', value: 'name' },
       { text: 'Campaign', value: 'campaign' },
       { text: 'Record', value: 'times' },
-      { text: 'Times', value: 'times_page' },
       { text: 'Steam', value: 'steam_id' },
+      { text: 'Actions', value: 'times_page' },
     ],
   }),
   props: {
@@ -117,12 +146,22 @@ export default {
         return time;
       }
     },
+    deleteLevel(level) {
+      this.$store.dispatch('deleteLevel', { id: level.id });
+    },
     toSteamPage(level) {
       window.open(`https://steamcommunity.com/sharedfiles/filedetails/?id=${encodeURIComponent(level.steam_id)}`, '_blank');
     },
     toLevelPage(level) {
       this.$router.push(`/levels/${level.id}`);
-    }
+    },
+  },
+  computed: {
+    admin() {
+      let rdy = this.$store.getters.authReady;
+      let status = this.$store.getters.myAuthLevel;
+      return rdy && (status >= 3);
+    },
   },
 };
 </script>

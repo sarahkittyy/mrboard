@@ -83,4 +83,15 @@ export class LevelController {
 
     return res.send(times);
   }
+
+  /**
+   * delete the level
+   * param('id') - isNumeric - the id of the level to delete.
+   */
+  public static del = async (req: Request, res: Response) => {
+    await Level.destroy({
+      where: { id: req.params.id },
+    });
+    return res.send('Level deleted!');
+  }
 };

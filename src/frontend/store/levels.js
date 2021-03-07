@@ -24,6 +24,9 @@ export default {
     updateTimes(state, { id, times }) {
       state.levels = {...state.levels, [id]: {...state.levels[id], times} };
     },
+    removeLevel(state, { id }) {
+      Vue.delete(state.levels, id);
+    },
   },
   actions: {
     fetchLevel({ commit }, { id }) {
@@ -76,6 +79,20 @@ export default {
           commit('doneFetching');
           Vue.$snotify.error(err.response || 'Unknown error', 'Could not fetch levels.');
         });
+    },
+    deleteLevel({ commit, dispatch }, { id }) {
+      fetch(`/api/levels/${id}`, {
+        method: 'delete',
+      })
+        .then(validateCode)
+        .then(r => {
+          Vue.$snotify.success('Level deleted.', 'Success!');
+          commit('removeLevel', { id });
+        })
+        .catch((err) => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error', 'Could not delete level.');
+        })
     },
   },
   getters: {
