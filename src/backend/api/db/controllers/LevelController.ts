@@ -20,6 +20,20 @@ export class LevelController {
   }
 
   /**
+   * get a level by it's steam id
+   * param('id') - isNumeric - the id of the level to grab
+   */
+  public static steam = async (req: Request, res: Response) => {
+    let level = await Level.findOne({ where: { steam_id: req.params.id } });
+
+    if (!level) {
+      return res.status(404).send(`Could not find level /steam/${req.params.id}`);
+    }
+
+    return res.send(level);
+  }
+
+  /**
    * get all levels
    */
   public static all = async (req: Request, res: Response) => {

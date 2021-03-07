@@ -9,6 +9,11 @@ const levels = express.Router();
 
 levels.get('/', LevelController.all);
 
+levels.get('/steam/:id', [
+  param('id').isNumeric(),
+  assert
+], LevelController.steam);
+
 levels.get('/:id/times', [
   param('id').isNumeric(),
   assert
