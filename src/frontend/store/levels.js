@@ -43,6 +43,23 @@ export default {
           commit('doneFetching');
         });
     },
+    fetchLevelBySteam({ commit }, { id }) {
+      commit('startFetching');
+      fetch(`/api/levels/steam/${id}`, {
+        method: 'get',
+      })
+        .then(validateCode)
+        .then(res => res.json())
+        .then((json) => {
+          commit('setLevel', { id: [json.id], obj: json });
+          commit('doneFetching');
+        })
+        .catch((err) => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error', 'Could not fetch level.');
+          commit('doneFetching');
+        });
+    },
     fetchLevels({ commit }) {
       commit('startFetching');
       fetch('/api/levels', {

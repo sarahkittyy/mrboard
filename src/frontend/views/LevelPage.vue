@@ -33,9 +33,9 @@ export default {
   created() {
     this.$store.dispatch('refreshAuth');
     if (!this.steam) {
-      this.$store.dispatch('fetchLevel', { id: this.id });
+      this.$store.dispatch('fetchLevel', { id: this.$route.params.id });
     } else {
-      this.$store.dispatch('fetchLevels');
+      this.$store.dispatch('fetchLevelBySteam', { id: this.$route.params.id });
     }
     this.$store.dispatch('fetchTimes');
 
