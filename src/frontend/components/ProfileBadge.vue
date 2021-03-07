@@ -16,18 +16,11 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(link, index) in profileLinks"
-          :key="index"
-          @click="profileMenuClick(link.fn)"
-          >
+        <v-list-item @click="logout">
           <v-list-item-icon>
-            <v-icon>{{ link.icon }}</v-icon>
+            <v-icon>mdi-exit-to-app</v-icon>
           </v-list-item-icon>
-
-          <v-list-item-content>
-            {{ link.text }}
-          </v-list-item-content>
+          <v-list-item-content>Logout</v-list-item-content>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -47,14 +40,6 @@
 export default {
   name: 'ProfileBadge',
   data: () => ({
-    profileLinks: [
-      {
-        text: 'Logout',
-        icon: 'mdi-exit-to-app',
-        fn: 'logout',
-        divideAfter: false,
-      },
-    ],
   }),
   methods: {
     login() {
@@ -63,9 +48,6 @@ export default {
     logout() {
       window.location.replace('/api/auth/logout?back=' + encodeURIComponent(this.route));
     },
-    profileMenuClick(fn) {
-      this[fn]();
-    }
   },
   computed: {
     route() {
