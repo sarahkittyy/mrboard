@@ -12,18 +12,37 @@
           <h1>Menu</h1>	
         </v-list-item-content>
       </v-list-item>
-      <v-list-item
-        v-for="(item, index) in menuItems"
-        :key="'norm' + index"
-        @click="clickDrawerItem(item.fn, item.arg)"
-        >
+      <!-- default items -->
+      <v-list-item @click="$router.push('/')">
         <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon>mdi-home</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>
-          {{ item.name }}
-        </v-list-item-title>
+        <v-list-item-title>Home</v-list-item-title>
       </v-list-item>
+
+      <v-list-item @click="$router.push('/times/submit')">
+        <v-list-item-icon>
+          <v-icon>mdi-cloud-upload</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Submit Time</v-list-item-title>
+      </v-list-item>
+
+      <v-list-item @click="$router.push('/levels')">
+        <v-list-item-icon>
+          <v-icon>mdi-magnify</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Levels</v-list-item-title>
+      </v-list-item>
+
+      <v-divider />
+
+      <v-list-item @click="toDiscordServer">
+        <v-list-item-icon>
+          <v-icon>mdi-discord</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Discord</v-list-item-title>
+      </v-list-item>
+
       <!-- moderator items -->
       <template v-if="$store.getters.myAuthLevel >= 2">
         <v-list-item>
@@ -31,18 +50,14 @@
             <h1>Moderator</h1>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-for="(item, index) in menuItemsModerator"
-          :key="'mod' + index"
-          @click="clickDrawerItem(item.fn, item.arg)"
-          >
+
+        <v-list-item @click="$router.push('/reports')">
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>mdi-alert</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>
-            {{ item.name }}
-          </v-list-item-title>
+          <v-list-item-title>Reports</v-list-item-title>
         </v-list-item>
+
       </template>
       <!-- admin items -->
       <template v-if="$store.getters.myAuthLevel >= 3">
@@ -50,18 +65,6 @@
           <v-list-item-content>
             <h1>Admin</h1>
           </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          v-for="(item, index) in menuItemsAdmin"
-          :key="'admin' + index"
-          @click="clickDrawerItem(item.fn, item.arg)"
-          >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>
-            {{ item.name }}
-          </v-list-item-title>
         </v-list-item>
       </template>
     </v-list>
@@ -75,36 +78,6 @@ export default {
   name: 'MainDrawer',
   mixins: [escape],
   data: () => ({
-    menuItems: [
-      {
-        name: 'Home',
-        icon: 'mdi-home',
-        fn: 'goTo',
-        arg: '/',
-      },
-      {
-        name: 'Submit Time',
-        icon: 'mdi-cloud-upload',
-        fn: 'goTo',
-        arg: '/times/submit'
-      },
-      {
-        name: 'Levels',
-        icon: 'mdi-magnify',
-        fn: 'goTo',
-        arg: '/levels',
-      },
-    ],
-    menuItemsModerator: [
-      {
-        name: 'Reports',
-        icon: 'mdi-alert',
-        fn: 'goTo',
-        arg: '/reports',
-      }
-    ],
-    menuItemsAdmin: [
-    ],
   }),
   props: {
     value: {
@@ -113,14 +86,11 @@ export default {
     },
   },
   methods: {
-    clickDrawerItem(fn, arg) {
-      this[fn](arg);
-    },
-    goTo(loc) {
-      this.$router.push(loc);
-    },
     escape() {
       this.open = false;
+    },
+    toDiscordServer() {
+      window.open('https://discord.gg/wQ7uKnhm9r');
     },
   },
   computed: {
