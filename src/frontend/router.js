@@ -6,7 +6,8 @@ import Page404 from './views/Page404';
 import Times from './views/Times';
 import TimeForm from './views/TimeForm';
 import LevelPage from './views/LevelPage';
-import Reports from './views/Reports.vue';
+import Reports from './views/Reports';
+import LevelSearch from './views/LevelSearch';
 
 const routes = [
   {
@@ -28,6 +29,13 @@ const routes = [
         }
       }
     ],
+  },
+  {
+    path: '/levels',
+    component: LevelSearch,
+    props: {
+      title: 'Search levels',
+    }
   },
   {
     path: '/levels/:id',

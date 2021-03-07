@@ -20,6 +20,21 @@ export class LevelController {
   }
 
   /**
+   * get all levels
+   */
+  public static all = async (req: Request, res: Response) => {
+    let levels = await Level.findAll({ include: [Time] });
+
+    if (!levels) {
+      return res.status(404).send(`Could not find levels.`);
+    }
+  
+    let levels_r = levels.reduce((a, x) => ({...a, [x.id]: x}), {});
+
+    return res.send(levels_r);
+  }
+
+  /**
    * get all times of a specific level
    * param('id') - isNumeric - the id of the level to get times from
    */

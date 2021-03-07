@@ -7,6 +7,8 @@ import { LevelController } from './db/controllers/LevelController';
 
 const levels = express.Router();
 
+levels.get('/', LevelController.all);
+
 levels.get('/:id/times', [
   param('id').isNumeric(),
   assert

@@ -86,7 +86,13 @@ export default {
         icon: 'mdi-cloud-upload',
         fn: 'goTo',
         arg: '/times/submit'
-      }
+      },
+      {
+        name: 'Levels',
+        icon: 'mdi-magnify',
+        fn: 'goTo',
+        arg: '/levels',
+      },
     ],
     menuItemsModerator: [
       {
