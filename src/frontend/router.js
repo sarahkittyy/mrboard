@@ -45,6 +45,14 @@ const routes = [
     }
   },
   {
+    path: '/levels/steam/:id',
+    component: LevelPage,
+    props: {
+      title: 'View level records',
+      steam: true,
+    },
+  },
+  {
     path: '/reports',
     component: Reports,
     props: {

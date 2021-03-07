@@ -6,10 +6,17 @@ import validateCode from '../util/validate-code';
 export default {
   state: () => ({
     levels: {},
+    fetching: false,
   }),
   mutations: {
     setLevel(state, { id, obj }) {
       state.levels = {...state.levels, [id]: {...obj}};
+    },
+    startFetching(state) {
+      state.fetching = true;
+    },
+    doneFetching(state) {
+      state.fetching = false;
     },
     setLevels(state, { levels }) {
       state.levels = {...levels};
@@ -20,6 +27,7 @@ export default {
   },
   actions: {
     fetchLevel({ commit }, { id }) {
+      commit('startFetching');
       fetch(`/api/levels/${id}`, {
         method: 'get',
       })
@@ -27,13 +35,16 @@ export default {
         .then(res => res.json())
         .then((json) => {
           commit('setLevel', { id, obj: json });
+          commit('doneFetching');
         })
         .catch((err) => {
           console.error(err);
           Vue.$snotify.error(err.response || 'Unknown error', 'Could not fetch level.');
+          commit('doneFetching');
         });
     },
     fetchLevels({ commit }) {
+      commit('startFetching');
       fetch('/api/levels', {
         method: 'get',
       })
@@ -41,9 +52,11 @@ export default {
         .then(res => res.json())
         .then((json) => {
           commit('setLevels', { levels: json });
+          commit('doneFetching');
         })
         .catch((err) => {
           console.error(err);
+          commit('doneFetching');
           Vue.$snotify.error(err.response || 'Unknown error', 'Could not fetch levels.');
         });
     },
@@ -52,8 +65,19 @@ export default {
     level: (state) => (id) => {
       return state.levels[id];
     },
+    idFromSteam: (state) => (steam_id) => {
+      let lvl = Object.values(state.levels).find(v => v.steam_id === steam_id);
+      if (!lvl) {
+        return null;
+      } else {
+        return lvl.id;
+      }
+    },
     levels(state) {
       return state.levels;
+    },
+    levelsLoading(state) {
+      return state.fetching;
     }
   },
 };

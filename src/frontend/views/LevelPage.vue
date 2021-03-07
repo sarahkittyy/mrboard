@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <records-table v-if="level" :level="level" />
-    <v-progress-circular v-else indeterminate class="absolute-center"/>
-  </div>
+  <records-table v-if="level" :level="level" />
+  <v-progress-circular v-else-if="loading" indeterminate class="absolute-center"/>
+  <v-container v-else fill-height fluid>
+    <v-row align="center" justify="center">
+      <v-card elevation="5" width="50%" class="text-center pa-13">
+        <div class="text-h5 ma-5">Could not find specified level.</div>
+        <v-btn @click="$router.push('/')">Home</v-btn>
+        <v-btn class="ml-4" @click="$router.push('/levels')">Levels</v-btn>
+      </v-card>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -18,15 +25,23 @@ export default {
   }),
   props: {
     title: String,
+    steam: {
+      type: Boolean,
+      default: false,
+    },
   },
   created() {
     this.$store.dispatch('refreshAuth');
-    this.$store.dispatch('fetchLevel', { id: this.$route.params.id });
+    if (!this.steam) {
+      this.$store.dispatch('fetchLevel', { id: this.id });
+    } else {
+      this.$store.dispatch('fetchLevels');
+    }
     this.$store.dispatch('fetchTimes');
 
     this.$emit('child-init', this.title);
 
-    if (isNaN(this.$route.params.id)) {
+    if (isNaN(this.id)) {
       this.$router.push('/404');
     }
   },
@@ -34,12 +49,19 @@ export default {
     ...mapGetters([
       'allTimes',
     ]),
-    filteredTimes() {
-      return this.level;
-    },
     level() {
-      return this.$store.getters.level(this.$route.params.id);
+      return this.$store.getters.level(this.id);
     },
+    id() {
+      if (!this.steam) {
+        return this.$route.params.id;
+      } else {
+        return this.$store.getters.idFromSteam(this.$route.params.id);
+      }
+    },
+    loading() {
+      return this.$store.getters.levelsLoading;
+    }
   },
   components: {
     RecordsTable,
