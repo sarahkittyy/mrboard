@@ -59,6 +59,14 @@
             <v-img :src="wr(item).author.avatarURL" alt="Record holder's avatar" />
           </v-avatar>
           {{ item.wr }} by {{ wr(item).author.name }}
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="toUserPage(wr(item).author)">
+                <v-icon>mdi-account</v-icon>
+              </v-btn>
+            </template>
+            <span>view user's profile</span>
+          </v-tooltip>
         </template>
       </template>
 
@@ -173,7 +181,10 @@ export default {
           false
         ));
       return res;
-    }
+    },
+    toUserPage(user) {
+      this.$router.push(`/profile/${user.steam_id}`);
+    },
   },
   computed: {
     admin() {

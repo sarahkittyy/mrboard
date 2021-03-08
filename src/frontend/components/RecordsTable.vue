@@ -33,6 +33,14 @@
             <v-img :src="item.author.avatarURL" alt="Record holder's avatar" />
           </v-avatar>
           {{ item.author.name }}
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="toUserPage(item)">
+                <v-icon>mdi-account</v-icon>
+              </v-btn>
+            </template>
+            <span>view user's profile</span>
+          </v-tooltip>
         </template>
 
         <template v-slot:[`item.duration`]="{ item }">
@@ -145,6 +153,9 @@ export default {
       } else {
         this.$store.dispatch('accept', time.id);
       }
+    },
+    toUserPage(time) {
+      this.$router.push(`/profile/${time.author.steam_id}`);
     },
     reject(time) {
       this.$store.dispatch('reject', time.id);

@@ -19,7 +19,7 @@
     </div>
     <div class="break-after">
       <v-icon class="mr-1">mdi-trophy-broken</v-icon>
-      <span>Records held: {{ recordsHeld }}</span>
+      <span>Total records held: {{ recordsHeld }}</span>
     </div>
     <div class="break-after">
       <v-icon class="mr-1">mdi-trophy</v-icon>
@@ -60,10 +60,11 @@ export default {
       window.open(`https://steamcommunity.com/profiles/${this.user.steam_id}`);
     },
     wr(level) {
-      if (level.times.length == 0) {
+      let times = this.$store.getters.timesOfLevel(level.id);
+      if (times.length == 0) {
         return 'No records set.';
       } else {
-        let time_id = level.times
+        let time_id = times
           .reduce((a, c) => (c.duration < a.duration ? c : a), { duration: Infinity })
           .id;
 
