@@ -72,8 +72,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('fetchTimes');
-
     this.computeVisibleCt();
     window.addEventListener('resize', this.computeVisibleCt);
   },

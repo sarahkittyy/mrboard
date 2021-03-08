@@ -50,6 +50,9 @@ export default {
     }
   },
   getters: {
+    me(state) {
+      return state.me;
+    },
     myAvatar(state) {
       if (state.me != null) {
         return state.me.avatarURL;

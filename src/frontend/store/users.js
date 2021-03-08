@@ -35,7 +35,11 @@ export default {
     },
     userById: (state) => (id) => {
       if (state.users == null) return null;
-      return state.users.filter(x => x.id === id)[0];
+      return state.users.find(x => x.id == id);
+    },
+    userBySteamId: (state) => (id) => {
+      if (state.users == null) return null;
+      return state.users.find(x => x.steam_id == id);
     },
   }
 };

@@ -168,6 +168,26 @@ export default {
         });
       return times;
     },
+    recentUserTimes: (state, getters) => (id) => {
+      let ids = [];
+      let times = getters.timesOfUser(id).concat().sort(((a, b) => {
+        return Date.parse(a.timestamp) - Date.parse(b.timestamp);
+      }))
+        .slice(0, 25)
+        .reverse() // now in order from first - last
+        .filter(v => {
+          if (ids.indexOf(v.level.id) == -1) {
+            ids.push(v.level.id);
+            return true;
+          } else {
+            return false;
+          }
+        });
+      return times;
+    },
+    timesOfUser: (state) => (id) => {
+      return state.all.filter(x => x.authorID == id);
+    },
     myTimes(state, getters, rootState) {
       if (!rootState.auth.me) {
         return null;
@@ -179,7 +199,7 @@ export default {
       return !!state.all;
     },
     timeFromId: (state) => (id) => {
-      return state.all.filter(x => x.id === id)[0];
+      return state.all.find(x => x.id == id);
     },
   }
 };

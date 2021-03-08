@@ -16,12 +16,21 @@
         </v-btn>
       </template>
       <v-list>
+
+        <v-list-item @click="$router.push('/profile')">
+          <v-list-item-icon>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>Profile</v-list-item-content>
+        </v-list-item>
+
         <v-list-item @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-exit-to-app</v-icon>
           </v-list-item-icon>
           <v-list-item-content>Logout</v-list-item-content>
         </v-list-item>
+
       </v-list>
     </v-menu>
     <v-img 

@@ -48,6 +48,7 @@ export default {
     document.title = "MRBoard Home";
     this.$emit('child-init', this.title);
 
+    this.$store.dispatch('fetchTimes');
     this.$store.dispatch('refreshAuth');
 
     this.submitButtonHidden = false;

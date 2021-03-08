@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
 
 });
 
-sequelize.sync()
+sequelize.sync({ force: false })
   .then(() => {
     console.log('sequelize synced!!');
   })

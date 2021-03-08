@@ -8,6 +8,7 @@ import TimeForm from './views/TimeForm';
 import LevelPage from './views/LevelPage';
 import Reports from './views/Reports';
 import LevelSearch from './views/LevelSearch';
+import Profile from './views/Profile';
 
 const routes = [
   {
@@ -57,7 +58,11 @@ const routes = [
     component: Reports,
     props: {
       title: 'Active reports',
-    }
+    },
+  },
+  {
+    path: '/profile/:id?',
+    component: Profile,
   },
   { path: '*', component: Page404 },
 ];

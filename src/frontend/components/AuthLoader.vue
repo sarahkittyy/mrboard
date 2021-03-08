@@ -1,9 +1,9 @@
 <template>
-<div>
+<v-container fill-height fluid>
   <slot v-if="!ready" name="loading"></slot>
   <slot v-else-if="ready && !authed" name="unauthorized"></slot>
   <slot v-else name="content"></slot>
-</div>
+</v-container>
 </template>
 <script>
 export default {

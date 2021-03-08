@@ -112,6 +112,9 @@ export default {
     },
     levelsLoading(state) {
       return state.fetching;
-    }
+    },
+    levelsReady(state) {
+      return state.levels;
+    },
   },
 };
