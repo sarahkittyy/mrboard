@@ -65,7 +65,13 @@ export default {
       return this.$route.params.id != null;
     },
   },
+  watch: {
+    user() {
+      this.$emit('child-init', `${this.user.name}'s profile`);
+    },
+  },
 };
+
 </script>
 <style lang="scss" scoped>
 
