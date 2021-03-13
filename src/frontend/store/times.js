@@ -166,7 +166,7 @@ export default {
             return false;
           }
         });
-      return times;
+      return times.slice(0, 30);
     },
     recentUserTimes: (state, getters) => (id) => {
       let ids = [];
@@ -183,7 +183,7 @@ export default {
             return false;
           }
         });
-      return times;
+      return times.slice(0, 30);
     },
     timesOfUser: (state) => (id) => {
       return state.all.filter(x => x.authorID == id);
