@@ -18,7 +18,7 @@
             max-height="169px"
           />
           <v-card-title>
-            {{ time.level.name }}
+            <div class="no-text-wrap">{{ time.level.name }}</div>
           </v-card-title>
           <v-card-subtitle>
             {{ time.duration.toFixed(2) }}s by {{ time.author.name }}
@@ -135,5 +135,12 @@ export default {
 <style lang="scss" scoped>
 
 @use '~@/common';
+
+.no-text-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  word-break: normal;
+  text-overflow: ellipsis;
+}
 
 </style>

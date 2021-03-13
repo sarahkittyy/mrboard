@@ -4,7 +4,7 @@
       <v-progress-circular indeterminate class="absolute-center" />
     </template>
     
-    <template v-slot:unauthorized>
+    <template v-slot:unauthorized v-if="!isId">
       <v-row align="center" justify="center">
         <v-sheet elevation="5" width="50%" class="text-center pa-13">
           <div class="text-h5 ma-5">You're not logged in.</div>
@@ -12,6 +12,10 @@
           <v-btn class="ml-4" @click="login">Login</v-btn>
         </v-sheet>
       </v-row>
+    </template>
+
+    <template v-slot:unauthorized v-else>
+      <profile-content :user="user" />
     </template>
 
     <template v-if="user != null" v-slot:content>
@@ -57,8 +61,17 @@ export default {
         return this.$store.getters.me;
       }
     },
+    isId() {
+      return this.$route.params.id != null;
+    },
+  },
+  watch: {
+    user() {
+      this.$emit('child-init', `${this.user.name}'s profile`);
+    },
   },
 };
+
 </script>
 <style lang="scss" scoped>
 

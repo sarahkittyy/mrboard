@@ -9,6 +9,9 @@ import LevelBrowser from '~/LevelBrowser';
 
 export default {
   name: 'LevelSearch',
+  props: {
+    title: String,
+  },
   components: {
     LevelBrowser,
   },
@@ -16,6 +19,8 @@ export default {
     this.$store.dispatch('fetchLevels');
     this.$store.dispatch('fetchTimes');
     this.$store.dispatch('refreshAuth');
+
+    this.$emit('child-init', this.title);
   },
   computed: {
     levels() {
