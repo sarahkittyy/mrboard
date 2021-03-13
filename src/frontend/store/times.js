@@ -154,7 +154,7 @@ export default {
     recentTimes(state) {
       let ids = [];
       let times = state.all.concat().sort(((a, b) => {
-        return Date.parse(a.timestamp) - Date.parse(b.timestamp);
+        return Date.parse(a.createdAt) - Date.parse(b.createdAt);
       }))
         .slice(0, 25)
         .reverse() // now in order from first - last
@@ -171,7 +171,7 @@ export default {
     recentUserTimes: (state, getters) => (id) => {
       let ids = [];
       let times = getters.timesOfUser(id).concat().sort(((a, b) => {
-        return Date.parse(a.timestamp) - Date.parse(b.timestamp);
+        return Date.parse(a.createdAt) - Date.parse(b.createdAt);
       }))
         .slice(0, 25)
         .reverse() // now in order from first - last
