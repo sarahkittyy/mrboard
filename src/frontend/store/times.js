@@ -148,6 +148,9 @@ export default {
     allTimes(state) {
       return state.all;
     },
+    pinnedTimes(state) {
+      return state.all.filter(v => v.pinned);
+    },
     timesOfLevel: (state) => (id) => {
       return state.all.filter(t => t.levelID === id);
     },

@@ -98,8 +98,4 @@ export default {
 
 @use '~@/common';
 
-.invisible {
-  display: none;
-}
-
 </style>

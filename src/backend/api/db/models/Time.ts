@@ -1,4 +1,4 @@
-import { AllowNull, Table, Column, Model, BelongsTo, ForeignKey, DataType, HasMany } from 'sequelize-typescript';
+import { AllowNull, Table, Column, Model, BelongsTo, ForeignKey, DataType, HasMany, Default } from 'sequelize-typescript';
 
 import Level from './Level';
 import User from './User';
@@ -38,4 +38,8 @@ export default class Time extends Model {
 
   @Column
   replay: string;
+
+  @Default(false)
+  @Column
+  pinned: boolean;
 };

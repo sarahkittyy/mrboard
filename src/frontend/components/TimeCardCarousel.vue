@@ -53,7 +53,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import TimeCard from '~/TimeCard';
 
 import debounce from 'debounce';
@@ -69,7 +69,7 @@ export default {
     times: {
       type: Array,
       default: [],
-    }
+    },
   },
   mounted() {
     this.computeVisibleCt();
@@ -82,9 +82,9 @@ export default {
     TimeCard,
   },
   methods: {
-    computeVisibleCt: debounce(function() {
+    computeVisibleCt() {
       this.visibleCt = Math.floor(window.innerWidth / (this.timeCardSize + 32));
-    }, 400),
+    },
   },
   computed: {
     paginationTimes() {

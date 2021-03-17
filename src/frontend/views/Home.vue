@@ -9,6 +9,17 @@
     </v-banner>
     <time-card-carousel :times="$store.getters.recentTimes" />
 
+    <template v-if="$store.getters.pinnedTimes.length != 0">
+      <v-banner class="text-h5 text-center">
+        <v-row align="center" justify="end">
+          <v-col>
+            <span class="absolute-center">Pinned Times</span>
+          </v-col>
+        </v-row>
+      </v-banner>
+      <time-card-carousel :times="$store.getters.pinnedTimes" />
+    </template>
+
     <v-tooltip top>
       <template v-slot:activator="{ on }">
         <v-fab-transition>
