@@ -77,6 +77,34 @@ export default {
           commit('stopFetching');
         });
     },
+    pin({ commit, dispatch }, id) {
+      fetch(`/api/times/pin/${id}`, {
+        method: 'post'
+      })
+        .then(validateCode)
+        .then(() => {
+          Vue.$snotify.success('Time pinned.', 'Success!');
+          dispatch('fetchTimes');
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error.', 'Could not pin time.');
+        });
+    },
+    unpin({ commit, dispatch }, id) {
+      fetch(`/api/times/unpin/${id}`, {
+        method: 'post'
+      })
+        .then(validateCode)
+        .then(() => {
+          Vue.$snotify.success('Time unpinned.', 'Success!');
+          dispatch('fetchTimes');
+        })
+        .catch(err => {
+          console.error(err);
+          Vue.$snotify.error(err.response || 'Unknown error.', 'Could not unpin time.');
+        });
+    },
     accept({ commit, dispatch }, id) {
       fetch(`/api/times/accept/${id}`, {
         method: 'post'

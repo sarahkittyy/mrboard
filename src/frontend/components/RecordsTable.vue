@@ -103,6 +103,7 @@
               </v-card>
             </template>
           </v-dialog>
+          <time-pin-button v-if="moderator" :time="item" />
         </template>
       </v-data-table>
     </template>
@@ -111,6 +112,7 @@
 
 <script>
 import SmallReportButton from '~/SmallReportButton';
+import TimePinButton from '~/TimePinButton';
 
 import escape from '../mixins/escape';
 
@@ -183,6 +185,7 @@ export default {
   },
   components: {
     SmallReportButton,
+    TimePinButton,
   },
 };
 </script>

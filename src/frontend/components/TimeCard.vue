@@ -4,12 +4,12 @@
       <v-card :elevation="hover ? 16 : 2" :width="width" :height="height" @click="toggleOverlay">
         <template v-if="skeleton">
           <v-skeleton-loader type="image" />
-            <v-card-title>
-              <v-skeleton-loader type="text" />
-            </v-card-title>
-            <v-card-subtitle>
-              <v-skeleton-loader type="text@2" />
-            </v-card-subtitle>
+          <v-card-title>
+            <v-skeleton-loader type="text" />
+          </v-card-title>
+          <v-card-subtitle>
+            <v-skeleton-loader type="text@2" />
+          </v-card-subtitle>
         </template>
         <template v-else>
           <v-img
@@ -39,13 +39,18 @@
             <small-report-button
               :time="time"
             />
+            <template v-if="moderator">
+              <v-divider />
+              <time-pin-button :time="time" />
+            </template>
           </v-card-actions>
 
           <v-overlay v-model="overlay">
             <v-card>
-              <v-btn icon>
+              <v-btn @mousedown.stop @mouseover.stop @click.stop="closeOverlay" icon>
                 <v-icon>mdi-close</v-icon>
               </v-btn>
+              <time-pin-button v-if="moderator" :time="time" />
               <v-img
                 :src="time.level.thumbnailURL"
                 alt="Thumbnail for the associated workshop level"
@@ -83,6 +88,7 @@
 
 <script>
 import SmallReportButton from '~/SmallReportButton';
+import TimePinButton from '~/TimePinButton';
 
 import escape from '../mixins/escape';
 
@@ -111,6 +117,9 @@ export default {
     toggleOverlay() {
       this.overlay = !this.overlay;
     },
+    closeOverlay() {
+      this.overlay = false;
+    },
     downloadReplay() {
       this.$store.dispatch('downloadTime', this.time.id);
     },
@@ -125,9 +134,15 @@ export default {
     uploadedString() {
       return `${new Date(this.time.createdAt).toLocaleDateString()} ${new Date(this.time.createdAt).toLocaleTimeString()}`;
     },
+    moderator() {
+      let rdy = this.$store.getters.authReady;
+      let status = this.$store.getters.myAuthLevel;
+      return rdy && (status >= 2);
+    },
   },
   components: {
     SmallReportButton,
+    TimePinButton,
   },
 }
 </script>

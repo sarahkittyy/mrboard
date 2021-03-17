@@ -45,4 +45,16 @@ times.post('/reject/:id', [
   assert
 ], TimeController.reject);
 
+times.post('/pin/:id', [
+  requireAuth(2),
+  param('id').isNumeric(),
+  assert
+], TimeController.pin);
+
+times.post('/unpin/:id', [
+  requireAuth(2),
+  param('id').isNumeric(),
+  assert
+], TimeController.unpin);
+
 export default times;

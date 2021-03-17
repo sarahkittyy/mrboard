@@ -136,6 +136,40 @@ export class TimeController {
 		return res.send('Success!');
 	}
 
+  /**
+   * pin a time
+   * param('id') - isNumeric - the id of the time to pin
+   */
+  public static pin = async (req: Request, res: Response) => {
+    let time = await Time.findOne({ where: { id: req.params.id }});
+
+    if (!time) {
+      return res.status(404).send(`Could not find time ${req.params.id}`);
+    }
+
+    time.pinned = true;
+    time.save();
+
+    return res.send('Success!');
+  }
+
+  /**
+   * unpin a time
+   * param('id') - isNumeric - the id of the time to pin
+   */
+  public static unpin = async (req: Request, res: Response) => {
+    let time = await Time.findOne({ where: { id: req.params.id }});
+
+    if (!time) {
+      return res.status(404).send(`Could not find time ${req.params.id}`);
+    }
+
+    time.pinned = false;
+    time.save();
+
+    return res.send('Success!');
+  }
+
 	/**
    * post a new time
    */
