@@ -187,7 +187,6 @@ export default {
       let times = state.all.concat().sort(((a, b) => {
         return Date.parse(a.createdAt) - Date.parse(b.createdAt);
       }))
-        .slice(0, 25)
         .reverse() // now in order from first - last
         .filter(v => {
           if (ids.indexOf(v.level.id) == -1) {
@@ -204,7 +203,6 @@ export default {
       let times = getters.timesOfUser(id).concat().sort(((a, b) => {
         return Date.parse(a.createdAt) - Date.parse(b.createdAt);
       }))
-        .slice(0, 25)
         .reverse() // now in order from first - last
         .filter(v => {
           if (ids.indexOf(v.level.id) == -1) {
