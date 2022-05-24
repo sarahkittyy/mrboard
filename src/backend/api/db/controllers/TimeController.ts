@@ -68,7 +68,7 @@ export class TimeController {
 		}
 
 		if (!fs.existsSync(appRoot.resolve(time.replay))) {
-			return res.status(404).send(`Server error: Could not find replay file.`);
+			return res.status(404).send(`Server error: Could not find replay file at ${appRoot.resolve(time.replay)}`);
 		} else {
 			return res.download(appRoot.resolve(time.replay));
 		}
