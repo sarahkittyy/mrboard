@@ -1,6 +1,13 @@
 import appRoot from 'app-root-path';
 import {Sequelize} from 'sequelize-typescript';
 
+import session from 'express-session';
+declare module 'express-session' {
+	export interface SessionData {
+		authReturnTo: any;
+	}
+}
+
 const { DB, DB_USER, DB_PASS } = process.env;
 
 const sequelize = new Sequelize({
